@@ -2040,6 +2040,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         $query = "SELECT DISTINCT " .
+            "ezcontentobject_tree.contentobject_id, " .
             "ezcontentobject.contentclass_id, ezcontentobject.current_version, ezcontentobject.id, ezcontentobject.initial_language_id, ezcontentobject.language_mask, " .
             "ezcontentobject.modified, ezcontentobject.owner_id, ezcontentobject.published, ezcontentobject.remote_id AS object_remote_id, ezcontentobject.section_id, ezcontentobject.status, " .
             "ezcontentobject_tree.contentobject_is_published, ezcontentobject_tree.contentobject_version, ezcontentobject_tree.depth, " .
