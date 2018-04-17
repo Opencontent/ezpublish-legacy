@@ -46,8 +46,10 @@ class ezpTestDatabaseHelper
         }
         catch ( Exception $e )
         {
-            echo $e->getMessage() . PHP_EOL;
-            eZExecution::cleanExit();
+            fwrite(STDERR, $e->getMessage() . PHP_EOL);
+            eZExecution::cleanup();
+            eZExecution::setCleanExit();
+            exit(1);
         }
 
         if ( self::exists( $dbRoot, $dsn->database ) )
