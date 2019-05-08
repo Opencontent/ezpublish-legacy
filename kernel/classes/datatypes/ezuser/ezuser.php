@@ -17,6 +17,8 @@
 
 class eZUser extends eZPersistentObject
 {
+    /// No hash, used by external handlers such as LDAP and TextFile
+    const PASSWORD_HASH_EMPTY = 0;
     /// MD5 of password
     const PASSWORD_HASH_MD5_PASSWORD = 1;
     /// MD5 of user and password
@@ -65,6 +67,15 @@ class eZUser extends eZPersistentObject
         parent::__construct( $row );
         $this->OriginalPassword = false;
         $this->OriginalPasswordConfirm = false;
+    }
+
+    /**
+     * @deprecated Use eZUser::__construct() instead
+     * @param array $row
+     */
+    function eZUser( $row = array() )
+    {
+        self::__construct( $row );
     }
 
     static function definition()
@@ -123,6 +134,10 @@ class eZUser extends eZPersistentObject
     {
         switch ( $id )
         {
+            case self::PASSWORD_HASH_EMPTY:
+            {
+                return 'empty';
+            } break;
             case self::PASSWORD_HASH_MD5_PASSWORD:
             {
                 return 'md5_password';
@@ -161,6 +176,10 @@ class eZUser extends eZPersistentObject
     {
         switch ( $identifier )
         {
+            case 'empty':
+            {
+                return self::PASSWORD_HASH_EMPTY;
+            } break;
             case 'md5_password':
             {
                 return self::PASSWORD_HASH_MD5_PASSWORD;
@@ -305,8 +324,14 @@ class eZUser extends eZPersistentObject
         if ( eZUser::validatePassword( $password ) and
              $password === $passwordConfirm ) // Cannot change login or password_hash without login and password
         {
-            $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
-                                                                      eZUser::hashType() ) );
+            if ( eZUser::hashType() !== self::PASSWORD_HASH_EMPTY )
+            {
+                $this->setAttribute(
+                    "password_hash",
+                    eZUser::createHash( $login, $password, eZUser::site(), eZUser::hashType() )
+                );
+            }
+
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
         }
         else
@@ -883,14 +908,15 @@ WHERE user_id = '" . $userID . "' AND
 
                 }
 
-                eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
-                                                                               $hashType, $hash ), "check hash" );
-                eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
                  // If current user has been disabled after a few failed login attempts.
                 $canLogin = eZUser::isEnabledAfterFailedLogin( $userID );
 
                 if ( $exists )
                 {
+                    eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
+                                                                                   $hashType, $hash ), "check hash" );
+                    eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
+
                     // We should store userID for warning message.
                     $GLOBALS['eZFailedLoginAttemptUserID'] = $userID;
 
@@ -1729,6 +1755,11 @@ WHERE user_id = '" . $userID . "' AND
     */
     static function authenticateHash( $user, $password, $site, $type, $hash )
     {
+        if ( $user == '' || $password == '' || $type == self::PASSWORD_HASH_EMPTY )
+        {
+            return false;
+        }
+
         return eZUser::createHash( $user, $password, $site, $type, $hash ) === (string) $hash;
     }
 
@@ -1877,12 +1908,20 @@ WHERE user_id = '" . $userID . "' AND
         {
             $str = password_hash( $password, PASSWORD_DEFAULT );
         }
-        else // self::DEFAULT_PASSWORD_HASH
+        else
         {
-            eZDebug::writeError( "Password hash type ID '$type' is not recognized. " .
-                                 'Defaulting to eZUser::DEFAULT_PASSWORD_HASH.' );
-            $str = self::createHash( $user, $password, $site, self::DEFAULT_PASSWORD_HASH, $hash );
+            if ( $type == self::PASSWORD_HASH_EMPTY )
+            {
+                eZDebug::writeError( "Cannot create hash of hash type 0 (PASSWORD_HASH_EMPTY)." );
+            }
+            else
+            {
+                eZDebug::writeError( "Password hash type ID '$type' is not recognized." );
+            }
+
+            return false;
         }
+
         eZDebugSetting::writeDebug( 'kernel-user', $str, "ezuser($type)" );
         return $str;
     }
