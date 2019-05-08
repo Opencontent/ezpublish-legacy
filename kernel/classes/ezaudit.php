@@ -67,12 +67,12 @@ class eZAudit
         $userID = $user->attribute( 'contentobject_id' );
         $userLogin = $user->attribute( 'login' );
 
-        $message = "[$ip] [$userLogin:$userID]\n";
+        $message = "$ip $userLogin:$userID";
 
         foreach ( array_keys( $auditAttributes ) as $attributeKey )
         {
             $attributeValue = $auditAttributes[$attributeKey];
-            $message .= "$attributeKey: $attributeValue\n";
+            $message .= " | $attributeKey: $attributeValue";
         }
 
         $logName = $auditNameSettings[$auditName]['file_name'];
