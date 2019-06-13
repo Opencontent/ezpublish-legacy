@@ -192,7 +192,7 @@ class eZDateType extends eZDataType
         $date = new eZDate( );
         $stamp = $contentObjectAttribute->attribute( 'data_int' );
         $date->setTimeStamp(
-            eZTimestamp::getLocalTimestampFromUtcTimestamp( $stamp )
+            $stamp ? eZTimestamp::getLocalTimestampFromUtcTimestamp( $stamp ) : $stamp
         );
         return $date;
     }
