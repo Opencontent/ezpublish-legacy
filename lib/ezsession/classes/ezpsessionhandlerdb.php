@@ -48,7 +48,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
      * Session read handler
      *
      * @param string $sessionId
-     * @return string|false Binary session data
+     * @return string Binary session data
      */
     public function read( $sessionId )
     {
@@ -56,7 +56,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
         $db = eZDB::instance();
         if ( !$db->isConnected() )
         {
-            return false;
+            return '';
         }
 
         $escKey = $db->escapeString( $sessionId );
@@ -77,7 +77,7 @@ class ezpSessionHandlerDB extends ezpSessionHandler
         }
         else
         {
-            return false;
+            return '';
         }
     }
 
