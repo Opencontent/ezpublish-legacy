@@ -138,6 +138,7 @@ class eZContentObjectTrashNode extends eZContentObjectTreeNode
                       'trashed' => time() );
 
         $trashNode = new eZContentObjectTrashNode( $row );
+        ezpEvent::getInstance()->notify( 'node/trash', array( $trashNode ) );
         return $trashNode;
     }
 
