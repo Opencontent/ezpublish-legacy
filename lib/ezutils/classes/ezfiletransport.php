@@ -18,17 +18,6 @@ class eZFileTransport extends eZMailTransport
 {
     function sendMail( eZMail $mail )
     {
-        $ini = eZINI::instance();
-        $sendmailOptions = '';
-        $emailFrom = $mail->sender();
-        $emailSender = $emailFrom['email'];
-        if ( !$emailSender || count( $emailSender) <= 0 )
-            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-        if ( !$emailSender )
-            $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-        if ( !eZMail::validate( $emailSender ) )
-            $emailSender = false;
-
         $filename = time() . '-' . mt_rand() . '.mail';
 
         $data = preg_replace('/(\r\n|\r|\n)/', "\r\n", $mail->headerText() . "\n" . $mail->body() );
