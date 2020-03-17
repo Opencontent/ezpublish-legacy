@@ -154,6 +154,8 @@ class eZINI
      */
     public function __construct( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
     {
+        $this->injectSettingsFromEnv();
+
         $this->Charset = 'utf8';
         if ( $fileName == '' )
             $fileName = 'site.ini';
@@ -205,6 +207,24 @@ class eZINI
 
         if ( $load )
             $this->load();
+    }
+
+    /**
+     * Load settings from env: format is EZINI_{file_without_extension}__{section}__{variable}
+     * Example:
+     * EZINI_site__SiteSettings__SiteName=My Demo Site
+     */
+    private function injectSettingsFromEnv()
+    {
+        $env = getenv();
+        foreach ($env as $key => $value){
+            if (strpos($key, 'EZINI_') === 0){
+                $key = str_replace('EZINI_', '', $key);
+                list($file, $section, $variable) = explode('__', $key, 3);
+                $file .= '.ini';
+                self::$injectedSettings[$file][$section][$variable] = $value;
+            }
+        }
     }
 
     /*!
