@@ -220,9 +220,37 @@ class eZINI
         foreach ($env as $key => $value){
             if (strpos($key, 'EZINI_') === 0){
                 $key = str_replace('EZINI_', '', $key);
-                list($file, $section, $variable) = explode('__', $key, 3);
+                $parts = explode('__', $key, 4);
+                $file = $parts[0];
+                $section = $parts[1];
+                $variable = $parts[2];
+                $key = false;
+                if (isset($parts[3])){
+                    $key = $parts[3];
+                }
                 $file .= '.ini';
-                self::$injectedSettings[$file][$section][$variable] = $value;
+                if ($key !== false) {
+                    self::$injectedSettings[$file][$section][$variable][$key] = $value;
+                }else{
+                    self::$injectedSettings[$file][$section][$variable] = $value;
+                }
+            }
+
+            // does not work in eZINI::group()
+            if (strpos($key, 'EZINIMERGE_') === 0){
+                $key = str_replace('EZINIMERGE_', '', $key);
+                $parts = explode('__', $key, 4);
+                $file = $parts[0];
+                $section = $parts[1];
+                $variable = $parts[2];
+                $key = false;
+                if (isset($parts[3])){
+                    $key = $parts[3];
+                }
+                $file .= '.ini';
+                if ($key !== false) {
+                    self::$injectedMergeSettings[$file][$section][$variable][$key] = $value;
+                }
             }
         }
     }
