@@ -122,6 +122,10 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
 
+    if ( !$itemCountList ) {
+        return $module->redirectTo( '/shop/basket/' );
+    }
+
     // We should check item count, all itemcounts must be greater than 0
     foreach ( $itemCountList as $itemCount )
     {
