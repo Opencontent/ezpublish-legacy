@@ -50,7 +50,6 @@ abstract class ezpSessionHandler
      */
     public function setSaveHandler()
     {
-        // session_module_name( 'user' );
         session_set_save_handler(
             array( $this, 'open' ),
             array( $this, 'close' ),
