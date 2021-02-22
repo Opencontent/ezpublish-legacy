@@ -1862,6 +1862,8 @@ class eZContentObject extends eZPersistentObject
      */
     function purge()
     {
+        ezpEvent::getInstance()->notify( 'content/pre_delete', array( $this ) );
+
         $delID = $this->ID;
         // Who deletes which content should be logged.
         eZAudit::writeAudit( 'content-delete', array( 'Object ID' => $delID, 'Content Name' => $this->attribute( 'name' ),
