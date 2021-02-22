@@ -567,7 +567,7 @@ class eZSys
         static $path = null;
         if ( $path === null )
         {
-            $path = isset($_ENV['EZP_GLOBAL_CACHE_PATH']) ? $_ENV['EZP_GLOBAL_CACHE_PATH'] : (self::varRootPath() . 'cache');
+            $path = getenv('EZP_GLOBAL_CACHE_PATH') ? getenv('EZP_GLOBAL_CACHE_PATH') : (self::varRootPath() . 'cache');
             if ($path && substr($path, -1, 1) != '/')
             {
                 $path .= '/';
@@ -580,14 +580,14 @@ class eZSys
      * Returns path to the ini cache folder. Path may be relative or absolute.
      * If no path is configured it is relative to ::globalCachePath()
      *
-     * Can be configured with the environment variable 'EZP_GLOBAL_CACHE_PATH'.
+     * Can be configured with the environment variable 'EZP_INI_CACHE_PATH'.
      */
     static function iniCachePath()
     {
         static $path = null;
         if ( $path === null )
         {
-            $path = isset($_ENV['EZP_INI_CACHE_PATH']) ? $_ENV['EZP_INI_CACHE_PATH'] : (self::globalCachePath() . 'ini');
+            $path = getenv('EZP_INI_CACHE_PATH') ? getenv('EZP_INI_CACHE_PATH') : (self::globalCachePath() . 'ini');
             if ($path && substr($path, -1, 1) != '/')
             {
                 $path .= '/';

@@ -23,6 +23,9 @@
 
   \endcode
 
+  The path to the cache folder is normally placed in var/cache/ini but can be overridden
+  by setting the environment variable `EZP_INI_CACHE_PATH`.
+
   The default ini file is site.ini but others can be passed to the instance() function
   among with some others. It will create one unique instance for each ini file and rootdir,
   this means that the next time instance() is used with the same parameters the same
@@ -549,7 +552,11 @@ class eZINI
         eZDebug::accumulatorStart( 'ini', 'Ini load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
+        $cachedDir = getenv('EZP_INI_CACHE_PATH');
+        if ( !$cachedDir )
+        {
+            $cachedDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
+        }
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
