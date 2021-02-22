@@ -2414,6 +2414,38 @@ class eZContentObject extends eZPersistentObject
     }
 
     /**
+     * Returns a list of content controller instances.
+     * A content controller can help limit access to certain attributes.
+     * 
+     * Controllers are defined in content.ini, EditSettings/ContentControlls
+     * and are cached in a global variable.
+     *
+     * @return object[]
+     */
+    public static function getContentControllers()
+    {
+        if ( isset( $GLOBALS['EZP_CONTENT_CONTROLLERS'] ) )
+        {
+            return $GLOBALS['EZP_CONTENT_CONTROLLERS'];
+        }
+
+        $contentControllers = array();
+        $contentIni = eZINI::instance('content.ini');
+        if ( $contentIni->hasVariable( 'EditSettings', 'ContentControllers' ) )
+        {
+            $contentControllerNames = $contentIni->variable( 'EditSettings', 'ContentControllers' );
+            foreach ($contentControllerNames as $contentControllerName)
+            {
+                $controller = new $contentControllerName();
+                $contentControllers[] = $controller;
+            }
+        }
+        $GLOBALS['EZP_CONTENT_CONTROLLERS'] = $contentControllers;
+
+        return $contentControllers;
+    }
+
+    /**
      * @param eZContentObjectAttribute[] $contentObjectAttributes
      * @param string $attributeDataBaseName
      * @param array|bool $inputParameters
@@ -2447,6 +2479,8 @@ class eZContentObject extends eZPersistentObject
 
         $this->resetInputRelationList();
 
+        $contentControllers = self::getContentControllers();
+
         $editVersion = null;
         $defaultLanguage = $this->initialLanguageCode();
         foreach( $contentObjectAttributes as $contentObjectAttribute )
@@ -2469,6 +2503,16 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( !$contentClassAttribute->attribute( 'can_translate' ) )
                     $doNotValidate = true;
+            }
+
+            // Check if attribute access is denied from custom controllers
+            foreach ($contentControllers as $contentController)
+            {
+                if ( !$contentController->canEditAttribute( $contentObjectAttribute ) )
+                {
+                    $doNotValidate = true;
+                    break;
+                }
             }
 
             if ( $doNotValidate == true )
@@ -2575,6 +2619,8 @@ class eZContentObject extends eZPersistentObject
 
         $defaultLanguage = $this->initialLanguageCode();
 
+        $contentControllers = self::getContentControllers();
+
         $this->fetchDataMap();
         foreach ( $contentObjectAttributes as $contentObjectAttribute )
         {
@@ -2594,6 +2640,16 @@ class eZContentObject extends eZPersistentObject
                 if ( !$contentClassAttribute->attribute( 'can_translate' ) )
                 {
                     $fetchInput = false;
+                }
+            }
+
+            // Check if attribute access is denied from custom controllers
+            foreach ($contentControllers as $contentController)
+            {
+                if ( !$contentController->canEditAttribute( $contentObjectAttribute ) )
+                {
+                    $fetchInput = false;
+                    break;
                 }
             }
 
