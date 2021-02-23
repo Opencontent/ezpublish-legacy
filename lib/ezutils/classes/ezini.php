@@ -24,7 +24,13 @@
   \endcode
 
   The path to the cache folder is normally placed in var/cache/ini but can be overridden
-  by setting the environment variable `EZP_INI_CACHE_PATH`.
+  by setting either the environment variable `EZP_INI_CACHE_PATH` or ``.
+  If `EZP_INI_CACHE_PATH` is used then it replaces the full ini cache path, if
+  `EZP_GLOBAL_CACHE_PATH` is set it is used as the base of the cache with `/ini` appended
+  to the path.
+
+  @see eZSys::iniCachePath
+  @see eZSys::globalCachePath
 
   The default ini file is site.ini but others can be passed to the instance() function
   among with some others. It will create one unique instance for each ini file and rootdir,
@@ -552,11 +558,7 @@ class eZINI
         eZDebug::accumulatorStart( 'ini', 'Ini load', 'Load cache' );
         if ( $reset )
             $this->reset();
-        $cachedDir = getenv('EZP_INI_CACHE_PATH');
-        if ( !$cachedDir )
-        {
-            $cachedDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
-        }
+        $cachedDir = self::cacheDir();
 
         $fileName = $this->cacheFileName( $placement );
         $cachedFile = $cachedDir . $fileName;
@@ -2150,6 +2152,22 @@ class eZINI
     static function injectMergeSettings( array $settings )
     {
         self::$injectedMergeSettings = $settings;
+    }
+
+    /**
+     * Returns the cache directory used for ini cache.
+     * The path always ends with a trailing slash.
+     *
+     * @return string The cache directory, e.g. `"var/cache/ini/"`
+     */
+    public static function cacheDir()
+    {
+        $cacheDir = eZSys::iniCachePath();
+        if ( !$cacheDir )
+        {
+            $cacheDir = __DIR__ . "/../../../" . self::CONFIG_CACHE_DIR;
+        }
+        return $cacheDir;
     }
 
     /// \privatesection

@@ -105,7 +105,7 @@ class eZExtension
         // cache has to be stored by siteaccess + $extensionType
         $extensionDirectory = self::baseDirectory();
         $expiryHandler = eZExpiryHandler::instance();
-        $phpCache = new eZPHPCreator( self::CACHE_DIR, "active_extensions_{$cacheIdentifier}.php" );
+        $phpCache = new eZPHPCreator( self::cacheDir(), "active_extensions_{$cacheIdentifier}.php" );
         $expiryTime = $expiryHandler->hasTimestamp( 'active-extensions-cache' ) ? $expiryHandler->timestamp( 'active-extensions-cache' ) : 0;
 
         if ( !$phpCache->canRestore( $expiryTime ) )
@@ -594,7 +594,7 @@ class eZExtension
      */
     public static function clearActiveExtensionsCache()
     {
-        $filesList = glob( self::CACHE_DIR . 'active_extensions_*.php' );
+        $filesList = glob( self::cacheDir() . 'active_extensions_*.php' );
         foreach ( $filesList as $path )
         {
             if ( is_file( $path ) )
@@ -603,6 +603,22 @@ class eZExtension
                 $handler->unlink( $path );
             }
         }
+    }
+
+    /**
+     * Returns the cache directory used for extension cache.
+     * The path always ends with a trailing slash.
+     *
+     * @return string The cache directory, e.g. `"var/cache/"`
+     */
+    public static function cacheDir()
+    {
+        $path = eZSys::globalCachePath();
+        if ( !$path )
+        {
+            $path = self::CACHE_DIR;
+        }
+        return $path;
     }
 }
 

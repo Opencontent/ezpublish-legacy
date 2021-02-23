@@ -138,7 +138,7 @@ class eZCodePageMapper
         // temporarely hide the cache display problem
         // http://ez.no/community/bugs/char_transform_cache_file_is_not_valid_php
         //$use_cache = false;
-        $cache_dir = "var/cache/codepages/";
+        $cache_dir = eZSys::globalCachePath() . "codepages/";
         $cache_filename = md5( $this->InputCharsetCode . $this->OutputCharsetCode );
         $cache = $cache_dir . $cache_filename . ".php";
 

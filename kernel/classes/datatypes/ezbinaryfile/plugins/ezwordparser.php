@@ -23,7 +23,7 @@ class eZWordParser
 
         $textExtractionTool = $binaryINI->variable( 'WordHandlerSettings', 'TextExtractionTool' );
 
-        $tmpName = "var/cache/" . md5( time() ) . '.txt';
+        $tmpName = eZSys::globalCachePath() . md5( time() ) . '.txt';
         $handle = fopen( $tmpName, "w" );
         fclose( $handle );
 

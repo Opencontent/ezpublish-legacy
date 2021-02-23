@@ -141,15 +141,16 @@ class eZDebug
                                                               'style' => 'strict',
                                                               'xhtml-identifier' => 'ezdebug-first-strict',
                                                               'name' => 'Strict' ) );
-        $this->LogFiles = array( self::LEVEL_NOTICE => array( "var/log/",
+        $varDir = eZSys::varRootPath();
+        $this->LogFiles = array( self::LEVEL_NOTICE => array( $varDir . "log/",
                                                            "notice.log" ),
-                                 self::LEVEL_WARNING => array( "var/log/",
+                                 self::LEVEL_WARNING => array( $varDir . "log/",
                                                             "warning.log" ),
-                                 self::LEVEL_ERROR => array( "var/log/",
+                                 self::LEVEL_ERROR => array( $varDir . "log/",
                                                           "error.log" ),
-                                 self::LEVEL_DEBUG => array( "var/log/",
+                                 self::LEVEL_DEBUG => array( $varDir . "log/",
                                                           "debug.log" ),
-                                 self::LEVEL_STRICT => array( 'var/log/',
+                                 self::LEVEL_STRICT => array( $varDir . "log/",
                                                            'strict.log' ) );
         $this->MessageTypes = array( self::LEVEL_NOTICE,
                                      self::LEVEL_WARNING,

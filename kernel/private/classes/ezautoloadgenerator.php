@@ -166,10 +166,12 @@ class eZAutoloadGenerator
 
         // Set up arrays for existing autoloads, used to check for class name
         // collisions.
+        $kernelAutoloadPath = eZSys::autoloadPath();
+        $externalAutoloadPath = eZSys::externalAutoloadPath();
         $this->existingAutoloadArrays = array();
-        $this->existingAutoloadArrays[self::MODE_KERNEL] = @include 'autoload/ezp_kernel.php';
-        $this->existingAutoloadArrays[self::MODE_EXTENSION] = @include 'var/autoload/ezp_extension.php';
-        $this->existingAutoloadArrays[self::MODE_TESTS] = @include 'var/autoload/ezp_tests.php';
+        $this->existingAutoloadArrays[self::MODE_KERNEL] = @include $kernelAutoloadPath . 'ezp_kernel.php';
+        $this->existingAutoloadArrays[self::MODE_EXTENSION] = @include $externalAutoloadPath . 'ezp_extension.php';
+        $this->existingAutoloadArrays[self::MODE_TESTS] = @include $externalAutoloadPath . 'ezp_tests.php';
 
         $this->messages = array();
         $this->warnings = array();
@@ -912,12 +914,14 @@ class eZAutoloadGenerator
      */
     protected function targetTable( $lookup )
     {
+        $kernelAutoloadPath = eZSys::autoloadPath( false );
+        $externalAutoloadPath = eZSys::externalAutoloadPath( false );
         $targets = array(
-                            self::MODE_EXTENSION => "var/autoload",
-                            self::MODE_TESTS     => "var/autoload",
-                            self::MODE_KERNEL    => "autoload",
+                            self::MODE_EXTENSION => $externalAutoloadPath,
+                            self::MODE_TESTS     => $externalAutoloadPath,
+                            self::MODE_KERNEL    => $kernelAutoloadPath,
                             self::MODE_SINGLE_EXTENSION => $this->options->basePath . DIRECTORY_SEPARATOR . 'autoload',
-                            self::MODE_KERNEL_OVERRIDE => "var/autoload",
+                            self::MODE_KERNEL_OVERRIDE => $externalAutoloadPath,
                         );
 
         if ( array_key_exists( $lookup, $targets ) )

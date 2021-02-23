@@ -494,19 +494,29 @@ class eZSys
     /**
      * Returns path to the site installation. Path may be relative or absolute.
      *
-     * Can be configured with the environment variable 'WWW_ROOT'.
+     * Can be configured with the environment variable `WWW_ROOT`.
      *
      * Note: A value of '' means the path is the current working directory.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to site, e.g. `"/app/"` or `""`
      */
-    static function wwwPath()
+    static function wwwPath( $trailing = true )
     {
         static $path = null;
         if ( $path === null )
         {
             $path = isset($_ENV['WWW_ROOT']) ? $_ENV['WWW_ROOT'] : '';
-            if ($path && substr($path, -1, 1) != '/')
+            if ( $path )
             {
-                $path .= '/';
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
             }
         }
         return $path;
@@ -514,21 +524,31 @@ class eZSys
 
     /**
      * Returns path to the eZ publish installation. Path may be relative or absolute.
-     * If no path is configured it is the same ::wwwPath()
+     * If no path is configured it is the same `::wwwPath()`
      *
-     * Can be configured with the environment variable 'EZP_ROOT'.
+     * Can be configured with the environment variable `EZP_ROOT`.
      *
      * Note: A value of '' means the path is the current working directory.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to site, e.g. `"/app/"` or `""`
      */
-    static function ezpPath()
+    static function ezpPath( $trailing = true )
     {
         static $path = null;
         if ( $path === null )
         {
             $path = isset($_ENV['EZP_ROOT']) ? $_ENV['EZP_ROOT'] : self::wwwPath();
-            if ($path && substr($path, -1, 1) != '/')
+            if ( $path )
             {
-                $path .= '/';
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
             }
         }
         return $path;
@@ -537,19 +557,29 @@ class eZSys
     /**
      * Returns path to the root of the var folder, ie. the main var folder and not
      * the one beloning to the site. Path may be relative or absolute.
-     * If no path is configured it is relative to ::wwwPath()
+     * If no path is configured it is relative to `::wwwPath()`
      *
      * Can be configured with the environment variable 'EZP_VAR_PATH'.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to global cache, e.g. `"var/"`
      */
-    static function varRootPath()
+    static function varRootPath( $trailing = true )
     {
         static $path = null;
         if ( $path === null )
         {
             $path = isset($_ENV['EZP_VAR_PATH']) ? $_ENV['EZP_VAR_PATH'] : (self::wwwPath() . 'var');
-            if ($path && substr($path, -1, 1) != '/')
+            if ( $path )
             {
-                $path .= '/';
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
             }
         }
         return $path;
@@ -558,19 +588,29 @@ class eZSys
     /**
      * Returns path to the global cache folder. Path may be relative or absolute.
      * The global cache is where the most basic cache files are placed, such as ini cache.
-     * If no path is configured it is relative to ::varRootPath()
+     * If no path is configured it is relative to `::varRootPath()`.
      *
      * Can be configured with the environment variable 'EZP_GLOBAL_CACHE_PATH'.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to global cache, e.g. `"var/cache/"`
      */
-    static function globalCachePath()
+    static function globalCachePath( $trailing = true )
     {
         static $path = null;
         if ( $path === null )
         {
             $path = getenv('EZP_GLOBAL_CACHE_PATH') ? getenv('EZP_GLOBAL_CACHE_PATH') : (self::varRootPath() . 'cache');
-            if ($path && substr($path, -1, 1) != '/')
+            if ( $path )
             {
-                $path .= '/';
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
             }
         }
         return $path;
@@ -578,19 +618,88 @@ class eZSys
 
     /**
      * Returns path to the ini cache folder. Path may be relative or absolute.
-     * If no path is configured it is relative to ::globalCachePath()
+     * If no path is configured it is relative to `::globalCachePath()`
      *
      * Can be configured with the environment variable 'EZP_INI_CACHE_PATH'.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to ini cache, e.g. `"var/cache/ini/"`
      */
-    static function iniCachePath()
+    static function iniCachePath( $trailing = true )
     {
         static $path = null;
         if ( $path === null )
         {
             $path = getenv('EZP_INI_CACHE_PATH') ? getenv('EZP_INI_CACHE_PATH') : (self::globalCachePath() . 'ini');
-            if ($path && substr($path, -1, 1) != '/')
+            if ( $path )
             {
-                $path .= '/';
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the autoload folder for the kernel. Path may be relative or absolute.
+     * If no path is configured it is relative to `::ezpPath()`
+     * The path always ends with a trailing slash.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to autoload folder, e.g. `"autoload/"`
+     */
+    static function autoloadPath( $trailing = true )
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = self::ezpPath() . 'autoload';
+            if ( $path )
+            {
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
+            }
+        }
+        return $path;
+    }
+
+    /**
+     * Returns path to the autoload folder for third party code. Path may be relative or absolute.
+     * If no path is configured it is relative to `::varRootPath()`
+     *
+     * Can be configured with the environment variable `'EZP_AUTOLOAD_PATH'`.
+     *
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string Path to autoload folder, e.g. `"var/autoload/"`
+     */
+    static function externalAutoloadPath( $trailing = true )
+    {
+        static $path = null;
+        if ( $path === null )
+        {
+            $path = getenv('EZP_AUTOLOAD_PATH') ? getenv('EZP_AUTOLOAD_PATH') : (self::varRootPath() . 'autoload');
+            if ( $path )
+            {
+                if ( $trailing && substr($path, -1, 1) != '/')
+                {
+                    $path .= '/';
+                }
+                else if ( !$trailing && substr($path, -1, 1) == '/')
+                {
+                    $path = substr( $path, 0, -1 );
+                }
             }
         }
         return $path;
@@ -621,22 +730,23 @@ class eZSys
     }
 
     /**
-     * Returns the current cache directory.
+     * Returns the current cache directory, e.g. `var/cache`.
      *
-     * @return string
+     * @param bool $trailing If true then add a trailing slash, if false remove trailing slash.
+     * @return string The cache directory, e.g. `"var/cache"`
      */
-    public static function cacheDirectory()
+    public static function cacheDirectory( $trailing = false )
     {
         $ini = eZINI::instance();
         $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
 
         if ( $cacheDir[0] == "/" )
         {
-            return eZDir::path( array( $cacheDir ) );
+            return eZDir::path( array( $cacheDir ), $trailing );
         }
         else
         {
-            return eZDir::path( array( self::varDirectory(), $cacheDir ) );
+            return eZDir::path( array( self::varDirectory(), $cacheDir ), $trailing );
         }
     }
 
