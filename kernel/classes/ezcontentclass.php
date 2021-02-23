@@ -654,10 +654,12 @@ class eZContentClass extends eZPersistentObject
         return false;
     }
 
-    /*!
-     Finds all Classes in the system and returns them.
-     \return An array with eZContentClass objects.
-    */
+    /**
+     * Finds all Classes in the system and returns them.
+     * Return an array with eZContentClass objects.
+     * 
+     * @return eZContentClass[]|array
+     */
     static function fetchAllClasses( $asObject = true, $includeFilter = true, $groupList = false )
     {
         $filterTableSQL = '';
@@ -731,9 +733,11 @@ class eZContentClass extends eZPersistentObject
         $db->commit();
     }
 
-    /*!
-     Get remote id of content node
-    */
+    /**
+     * Get remote id of content node
+     *
+     * @return string|null
+     */
     function remoteID()
     {
         $remoteID = $this->attribute( 'remote_id', true );
@@ -1112,6 +1116,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return false;
     }
 
+    /**
+     * @return eZContentClass|array|null
+     */
     static function fetch( $id, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         global $eZContentClassObjectCache;
@@ -1166,6 +1173,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentClass;
     }
 
+    /**
+     * @return eZContentClass|array|null
+     */
     static function fetchByRemoteID( $remoteID, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "remote_id" => $remoteID,
@@ -1199,6 +1209,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $row;
     }
 
+    /**
+     * @return eZContentClass|array|null
+     */
     static function fetchByIdentifier( $identifier, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "identifier" => $identifier,
@@ -1231,9 +1244,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $row;
     }
 
-    /*!
-     \static
-    */
+    /**
+     * @return eZContentClass[]|array
+     */
     static function fetchList( $version = eZContentClass::VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
@@ -1300,9 +1313,10 @@ You will need to change the class of the node by using the swap functionality.' 
                                                             $custom_conds );
     }
 
-    /*!
-     Returns all attributes as an associative array with the key taken from the attribute identifier.
-    */
+    /**
+     * Returns all attributes as an associative array with the key taken from the attribute identifier.
+     * @return eZContentClassAttribute[]|array
+     */
     function dataMap()
     {
         if ( !isset( $this->DataMap[$this->Version] ) )
@@ -1316,6 +1330,9 @@ You will need to change the class of the node by using the swap functionality.' 
         return $this->DataMap[$this->Version];
     }
 
+    /**
+     * @return eZContentClassAttribute[]|array
+     */
     function fetchAttributes( $id = false, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED )
     {
         if ( $id === false )
@@ -1329,13 +1346,12 @@ You will need to change the class of the node by using the swap functionality.' 
                                                            $asObject );
     }
 
-    /*!
-     Fetch class attribute by identifier, return null if none exist.
-
-     \param attribute identifier.
-
-     \return Class Attribute, null if none matched
-    */
+    /**
+     * Fetch class attribute by identifier, return null if none exist.
+     *
+     * @param string $attribute identifier.
+     * @return eZContentClassAttribute|array|null Return Class Attribute, null if none matched
+     */
     function fetchAttributeByIdentifier( $identifier, $asObject = true )
     {
         $attributeArray = eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
@@ -1478,9 +1494,10 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentObjectName;
     }
 
-    /*!
-     \return will return the number of objects published by this class.
-    */
+    /**
+     * Return will return the number of objects published by this class.
+     * @return int
+     */
     function objectCount()
     {
         $db = eZDB::instance();
@@ -1491,9 +1508,10 @@ You will need to change the class of the node by using the swap functionality.' 
         return $countRow[0]['count'];
     }
 
-    /*!
-     \return will return the list of objects published by this class.
-    */
+    /**
+     * return will return the list of objects published by this class.
+     * @return eZContentObject[]
+     */
     function objectList()
     {
         return eZContentObject::fetchSameClassList( $this->ID );

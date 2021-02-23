@@ -524,7 +524,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      * @param bool $asObject
      * @param int|bool $offset
      * @param int|bool $limit
-     * @return eZContentObjectTreeNode[]
+     * @return eZContentObjectTreeNode[]|array
      */
     static function fetchList( $asObject = true, $offset = false, $limit = false )
     {
@@ -1878,9 +1878,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $cachedResult;
     }
 
-    /*!
-        \a static
-    */
+    /**
+     * @return array
+     */
     static function getLimitationList( &$limitation )
     {
         // do not check currentUser if limitation is disabled
@@ -1924,7 +1924,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /**
      * @param array|bool $params
      * @param int $nodeID
-     * @return array|null
+     * @return eZContentObjectTreeNode[]|array|null
      */
     static function subTreeByNodeID( $params = false, $nodeID = 0 )
     {
@@ -2105,7 +2105,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /**
      * @param array|bool $params
-     * @return array|null
+     * @return eZContentObjectTreeNode[]|array|null
      */
     function subTree( $params = false )
     {
@@ -2526,11 +2526,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $nodeListArray[0]['count'];
     }
 
-    /*!
-     Count number of subnodes
-
-     \param params array
-    */
+    /**
+     * Count number of subnodes
+     *
+     * @param array $params
+     * @return int
+     */
     function subTreeCount( $params = array() )
     {
         return eZContentObjectTreeNode::subTreeCountByNodeID( $params, $this->attribute( 'node_id' ) );
@@ -2644,9 +2645,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         return $nodeListArray;
     }
-    /*!
-     \return the children(s) of the current node as an array of eZContentObjectTreeNode objects
-    */
+
+    /**
+     * Return the children(s) of the current node as an array of eZContentObjectTreeNode objects
+     *
+     * @return eZContentObjectTreeNode[]
+     */
     function childrenByName( $name )
     {
         $db = eZDB::instance();
@@ -2676,7 +2680,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /**
      * Returns the first level children in sorted order.
      *
-     * @return array|null
+     * @return eZContentObjectTreeNode[]|array|null
      */
     function children()
     {
@@ -2685,11 +2689,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                       'SortBy' => $this->sortArray() ) );
     }
 
-    /*!
-     Returns the number of children for the current node.
-     \params $checkPolicies If \c true it will only include nodes which can be read using the current policies,
-                            if \c false all nodes are included in count.
-    */
+    /**
+     * Returns the number of children for the current node.
+     * @params bool $checkPolicies If \c true it will only include nodes which can be read using the current policies,
+     *                             if \c false all nodes are included in count.
+     * @return int
+     */
     function childrenCount( $checkPolicies = true )
     {
         $params = array( 'Depth' => 1,
@@ -2905,6 +2910,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
+    /**
+     * @return eZContentObjectTreeNode[]|array|null
+     */
     static function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
     {
         $conds = array( 'contentobject_id' => $contentObjectID );
@@ -2920,16 +2928,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                     $asObject );
     }
 
+    /**
+     * @return eZContentObjectTreeNode|array|null
+     */
     static function fetchByRemoteID( $remoteID, $asObject = true )
     {
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "remote_id" => $remoteID ) );
     }
 
+    /**
+     * @return eZContentObjectTreeNode|array|null
+     */
     static function fetchByPath( $pathString, $asObject = true )
     {
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
     }
 
+    /**
+     * @return eZContentClassAttribute|array|null
+     */
     static function fetchByURLPath( $pathString, $asObject = true )
     {
         if ( $pathString == "" )
@@ -3043,7 +3060,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      * @param bool $asObject True to fetch the node as an eZContentObjectTreeNode, false to fetch its attributes as an array
      * @param array|bool $conditions An associative array (field => value) of fetch conditions. Will be applied as is to the SQL query
      *
-     * @return eZContentObjectTreeNode
+     * @return eZContentObjectTreeNode|null
     */
     static function fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
     {
@@ -3154,11 +3171,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    /*!
-     \static
-     Finds the node for the object \a $contentObjectID which placed as child of node \a $parentNodeID.
-     \return An eZContentObjectTreeNode object or \c null if no node was found.
-    */
+    /**
+     * Finds the node for the object \a $contentObjectID which placed as child of node \a $parentNodeID.
+     * Return An eZContentObjectTreeNode object or \c null if no node was found.
+     * 
+     * @param int $contentObjectID
+     * @param int $parentNodeID
+     * @return eZContentObjectTreeNode|null
+     */
     static function fetchNode( $contentObjectID, $parentNodeID )
     {
         $returnValue = null;
@@ -3189,11 +3209,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
+    /**
+     * @return eZContentObjectTreeNode|null
+     */
     function fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
+    /**
+     * @return int[]
+     */
     function pathArray()
     {
         $pathString = $this->attribute( 'path_string' );
@@ -3208,6 +3234,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
 
+    /**
+     * @return eZContentObjectTreeNode[]|array|
+     */
     function fetchPath()
     {
         $nodePath = $this->attribute( 'path_string' );
@@ -3215,14 +3244,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, false, true );
     }
 
-    /*!
-     \static
-     \return An array with content node objects that is present in the node path \a $nodePath.
-     \param $withLastNode If \c true the last node in the path is included in the list.
-                          The last node is the node which the path was fetched from.
-     \param $asObjects If \c true then return PHP objects, if not return raw row data.
-     \param $limit maximum number of nodes in the path to use, starting from last node
-    */
+    /**
+     * An array with content node objects that is present in the node path \a $nodePath.
+     *
+     * @param $withLastNode If \c true the last node in the path is included in the list.
+     *                      The last node is the node which the path was fetched from.
+     * @param $asObjects If \c true then return PHP objects, if not return raw row data.
+     * @param $limit maximum number of nodes in the path to use, starting from last node
+     * @return eZContentObjectTreeNode[]|array
+     */
     static function fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true, $limit = false )
     {
         $nodesListArray = array();
@@ -3366,9 +3396,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
     }
 
-    /*!
-     \return an url alias for the current node. It will generate a unique alias.
-    */
+    /**
+     * Return an url alias for the current node. It will generate a unique alias.
+     * @return string
+     */
     function pathWithNames( $regenerateCurrent = false )
     {
         // Only set name if current node is not the content root
@@ -5733,7 +5764,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /**
      * Returns the eZContentObject associated to this node
      *
-     * @return eZContentObject
+     * @return eZContentObject|null
      */
     function object()
     {

@@ -879,7 +879,7 @@ class eZContentObject extends eZPersistentObject
      * @param int $id ID of the content object to fetch
      * @param bool $asObject Return the result as an object (true) or an assoc. array (false)
      *
-     * @return eZContentObject
+     * @return eZContentObject|array|null
      */
     static function fetch( $id, $asObject = true )
     {
@@ -932,7 +932,7 @@ class eZContentObject extends eZPersistentObject
      * @param int $id ID of the content object to fetch
      * @param bool $asObject Return the result as an object (true) or an assoc. array (false)
      *
-     * @return eZContentObject|mixed|null
+     * @return eZContentObject|array|null
      */
     static function fetchForUpdate( $id, $asObject = true )
     {
@@ -2825,7 +2825,7 @@ class eZContentObject extends eZPersistentObject
     /**
      * Returns the number of existing versions.
      *
-     * @return mixed
+     * @return int
      */
     function getVersionCount()
     {
@@ -4021,7 +4021,7 @@ class eZContentObject extends eZPersistentObject
     /**
      * Returns the main node id for the current object.
      *
-     * @return int|null
+     * @return eZContentObjectTreeNode|null
      */
     function mainNode()
     {

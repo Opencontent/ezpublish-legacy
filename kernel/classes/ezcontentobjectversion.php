@@ -142,10 +142,12 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         return $versions;
     }
-    /*!
-     \return true if the requested attribute exists in object.
-    */
 
+    /**
+     * Return the version object with the specified ID.
+     *
+     * @return eZContentObjectVersion|null
+     */
     static function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(),
@@ -154,6 +156,9 @@ class eZContentObjectVersion extends eZPersistentObject
                                                 $asObject );
     }
 
+    /**
+     * @return eZContentObjectVersion[]|array|null
+     */
     static function fetchVersion( $version, $contentObjectID, $asObject = true )
     {
         $ret = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
@@ -774,6 +779,9 @@ class eZContentObjectVersion extends eZPersistentObject
         }
     }
 
+    /**
+     * @return eZContentObject|null
+     */
     function contentObject()
     {
         if( !isset( $this->ContentObject ) )
@@ -783,6 +791,9 @@ class eZContentObjectVersion extends eZPersistentObject
         return $this->ContentObject;
     }
 
+    /**
+     * @return int|null
+     */
     function mainParentNodeID()
     {
         $temp = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
@@ -796,6 +807,9 @@ class eZContentObjectVersion extends eZPersistentObject
         }
     }
 
+    /**
+     * @return eZNodeAssignment[]
+     */
     function parentNodes( )
     {
         $retNodes = array();
@@ -807,6 +821,10 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         return $retNodes;
     }
+
+    /**
+     * @return eZNodeAssignment[]
+     */
     function nodeAssignments()
     {
         return eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
@@ -865,9 +883,11 @@ class eZContentObjectVersion extends eZPersistentObject
         $db->commit();
     }
 
-    /*!
-     \return the content object attribute
-    */
+    /**
+     * Return the content object attribute map for this version.
+     *
+     * @return eZContentObjectAttribute[]
+     */
     function dataMap()
     {
         if ( $this->ContentObjectAttributeArray === false )
@@ -909,6 +929,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function relatedContentObjectArray()
     {
+        /** @var eZContentObject */
         $object = $this->attribute( 'contentobject' );
         return $object->relatedContentObjectArray( $this->Version );
     }
@@ -1198,10 +1219,12 @@ class eZContentObjectVersion extends eZPersistentObject
         return $this->translationList();
     }
 
-    /*!
-     Returns the attributes for the current content object version.
-     If \a $language is not specified it will use the initial language of the version.
-    */
+    /**
+     * Returns the attributes for the current content object version.
+     * If \a $language is not specified it will use the initial language of the version.
+     *
+     * @return eZContentObjectAttribute[]
+     */
     function contentObjectAttributes( $languageCode = false, $asObject = true )
     {
         if ( $languageCode == false )
@@ -1219,14 +1242,15 @@ class eZContentObjectVersion extends eZPersistentObject
         return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $languageCode, $asObject );
     }
 
-    /*!
-     Returns the attributes for the content object version \a $version and content object \a $contentObjectID.
-     \a $language defines the language to fetch.
-     \static
-     \sa attributes
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-    */
+    /**
+     * Returns the attributes for the content object version \a $version and content object \a $contentObjectID.
+     * @a $language defines the language to fetch.
+     * @sa attributes
+     * @note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     *
+     * @return eZContentObjectAttribute[]
+     */
     static function fetchAttributes( $version, $contentObjectID, $language = false, $asObject = true )
     {
         $db = eZDB::instance();
@@ -1619,9 +1643,11 @@ class eZContentObjectVersion extends eZPersistentObject
         return $versionNode;
     }
 
-    /*!
-     \return the creator of the current version.
-    */
+    /**
+     * return the creator of the current version.
+     * 
+     * @return eZContentObject|null
+     */
     function creator()
     {
         if ( isset( $this->CreatorID ) and $this->CreatorID )

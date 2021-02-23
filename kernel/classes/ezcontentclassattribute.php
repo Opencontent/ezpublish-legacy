@@ -377,6 +377,9 @@ class eZContentClassAttribute extends eZPersistentObject
         }
     }
 
+    /**
+     * @return eZContentClassAttribute|array|null
+     */
     static function fetch( $id, $asObject = true, $version = eZContentClass::VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
@@ -400,6 +403,9 @@ class eZContentClassAttribute extends eZPersistentObject
         return $object;
     }
 
+    /**
+     * @return eZContentClassAttribute[]|array
+     */
     static function fetchList( $asObject = true, $parameters = array() )
     {
         $parameters = array_merge( array( 'data_type' => false,
@@ -447,6 +453,9 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
+    /**
+     * @return eZContentClassAttribute[]|array
+     */
     static function fetchListByClassID( $classID, $version = eZContentClass::VERSION_STATUS_DEFINED, $asObject = true )
     {
         $objects = null;
@@ -478,6 +487,9 @@ class eZContentClassAttribute extends eZPersistentObject
         return $objects;
     }
 
+    /**
+     * @return eZContentClassAttribute[]|array
+     */
     static function fetchFilteredList( $cond, $asObject = true )
     {
         $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
@@ -531,9 +543,11 @@ class eZContentClassAttribute extends eZPersistentObject
         return eZDataType::create( $this->DataTypeString );
     }
 
-    /*!
-     \return The content for this attribute.
-    */
+    /**
+     * Return The content for this attribute.
+     *
+     * @return mixed
+     */
     function content()
     {
         if ( $this->Content === null )

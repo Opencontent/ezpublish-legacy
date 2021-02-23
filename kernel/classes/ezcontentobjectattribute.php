@@ -132,6 +132,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $definition;
     }
 
+    /**
+     * @return eZContentObjectAttribute[]|array
+     */
     static function fetch( $id, $version, $asObject = true, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
@@ -141,6 +144,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
+    /**
+     * @return eZContentObjectAttribute[]|array
+     */
     static function fetchListByClassID( $id, $version = false, $limit = null, $asObject = true, $asCount = false )
     {
         $conditions = array();
@@ -178,6 +184,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
+    /**
+     * @return eZContentObjectAttribute|array|null
+     */
     static function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
@@ -395,6 +404,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
+    /**
+     * @return eZContentObject|null 
+     */
     function object()
     {
         if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
@@ -404,14 +416,19 @@ class eZContentObjectAttribute extends eZPersistentObject
         return null;
     }
 
+    /**
+     * @return eZContentObjectVersion|null
+     */
     function objectVersion()
     {
         return eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
     }
 
-    /*!
-      Returns the attribute  for the current data attribute instance
-    */
+    /**
+     * Returns the attribute  for the current data attribute instance
+     *
+     * @return eZContentClassAttribute|null
+     */
     function contentClassAttribute()
     {
         eZDebug::accumulatorStart( 'instantiate_class_attribute', 'class_abstraction', 'Instantiating content class attribute' );
@@ -1044,9 +1061,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $dataType;
     }
 
-    /*!
-      Fetches the title of the data instance which is to form the title of the object.
-    */
+    /**
+     * Fetches the title of the data instance which is to form the title of the object.
+     *
+     * @return string
+     */
     function title()
     {
         $dataType = $this->dataType();
@@ -1056,9 +1075,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         return '';
     }
 
-    /*!
-     \return the content for the contentclass attribute which defines this contentobject attribute.
-    */
+    /**
+     * Return the content for the contentclass attribute which defines this contentobject attribute.
+     * 
+     * @return mixed
+     */
     function classContent()
     {
         $attribute = $this->contentClassAttribute();
@@ -1096,9 +1117,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         return false;
     }
 
-    /*!
-     Returns the content for this attribute.
-    */
+    /**
+     * Returns the content for this attribute.
+     *
+     * @return mixed
+     */
     function content()
     {
         if ( $this->Content === null )
@@ -1110,11 +1133,13 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $this->Content;
     }
 
-    /*!
-     \return \c true if the attribute is considered to have any content at all (ie. non-empty).
-
-     It will call the hasObjectAttributeContent() for the current datatype to figure this out.
-    */
+    /**
+     * Return \c true if the attribute is considered to have any content at all (ie. non-empty).
+     *
+     * It will call the hasObjectAttributeContent() for the current datatype to figure this out.
+     * 
+     * @return bool
+     */
     function hasContent()
     {
         $dataType = $this->dataType();
@@ -1137,9 +1162,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         else
             return false;
     }
-    /*!
-     Returns the string representation of attribute. This is the pure content of the attribute in string
-     representation used for simplified import/export.
+    /**
+     * Returns the string representation of attribute. This is the pure content of the attribute in string
+     * representation used for simplified import/export.
+     *
+     * @return string
      */
     function toString()
     {
@@ -1149,9 +1176,13 @@ class eZContentObjectAttribute extends eZPersistentObject
         else
             return false;
     }
-    /*!
-     imports string to attribute content
-     used for simplified import/export.
+
+    /**
+     * imports string to attribute content
+     * used for simplified import/export.
+     *
+     * @param string $string
+     * @return bool
      */
     function fromString( $string )
     {
@@ -1161,7 +1192,6 @@ class eZContentObjectAttribute extends eZPersistentObject
         else
             return false;
     }
-
 
     /*!
      \static
