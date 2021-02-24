@@ -144,6 +144,13 @@ class eZSys
     protected $QueryString;
 
     /**
+     * Caches for all path/dir methods.
+     *
+     * @var array
+     */
+    protected static $caches = [];
+
+    /**
      * Initialize the object with settings taken from the current script run.
      *
      * @param array $serverParams For unit testing use, see first few lines for content
@@ -503,7 +510,7 @@ class eZSys
      */
     static function wwwPath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['www'];
         if ( $path === null )
         {
             $path = isset($_ENV['WWW_ROOT']) ? $_ENV['WWW_ROOT'] : '';
@@ -535,7 +542,7 @@ class eZSys
      */
     static function ezpPath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['ezp'];
         if ( $path === null )
         {
             $path = isset($_ENV['EZP_ROOT']) ? $_ENV['EZP_ROOT'] : self::wwwPath();
@@ -566,7 +573,7 @@ class eZSys
      */
     static function varRootPath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['varRoot'];
         if ( $path === null )
         {
             $path = isset($_ENV['EZP_VAR_PATH']) ? $_ENV['EZP_VAR_PATH'] : (self::wwwPath() . 'var');
@@ -597,7 +604,7 @@ class eZSys
      */
     static function globalCachePath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['globalCache'];
         if ( $path === null )
         {
             $path = getenv('EZP_GLOBAL_CACHE_PATH') ? getenv('EZP_GLOBAL_CACHE_PATH') : (self::varRootPath() . 'cache');
@@ -627,7 +634,7 @@ class eZSys
      */
     static function iniCachePath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['iniCache'];
         if ( $path === null )
         {
             $path = getenv('EZP_INI_CACHE_PATH') ? getenv('EZP_INI_CACHE_PATH') : (self::globalCachePath() . 'ini');
@@ -656,7 +663,7 @@ class eZSys
      */
     static function autoloadPath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['autoload'];
         if ( $path === null )
         {
             $path = self::ezpPath() . 'autoload';
@@ -686,7 +693,7 @@ class eZSys
      */
     static function externalAutoloadPath( $trailing = true )
     {
-        static $path = null;
+        $path =& self::$caches['externalAutoload'];
         if ( $path === null )
         {
             $path = getenv('EZP_AUTOLOAD_PATH') ? getenv('EZP_AUTOLOAD_PATH') : (self::varRootPath() . 'autoload');
@@ -703,6 +710,16 @@ class eZSys
             }
         }
         return $path;
+    }
+
+    /**
+     * Resets all caches for path/dir related methods.
+     *
+     * @return void 
+     */
+    public static function resetCaches()
+    {
+        self::$caches = [];
     }
 
     /**
