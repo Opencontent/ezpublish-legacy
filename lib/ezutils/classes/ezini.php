@@ -231,6 +231,9 @@ class eZINI
                 $file .= '.ini';
                 if ($key !== false) {
                     self::$injectedSettings[$file][$section][$variable][$key] = $value;
+                    if (is_numeric($key)){
+                        ksort(self::$injectedSettings[$file][$section][$variable]);
+                    }
                 }else{
                     self::$injectedSettings[$file][$section][$variable] = $value;
                 }
