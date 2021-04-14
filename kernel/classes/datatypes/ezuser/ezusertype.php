@@ -251,7 +251,8 @@ class eZUserType extends eZDataType
         else
         {
             // No "draft" for version 1 to avoid regression for existing code creating new users.
-            if ( $contentObjectAttribute->attribute( 'version' ) == '1' )
+            if ( $contentObjectAttribute->attribute( 'version' ) == '1'
+                || (!eZUser::fetch($contentObjectAttribute->attribute( "contentobject_id" )) && !empty($user->Login)) )
             {
                 $user->store();
                 $contentObjectAttribute->setContent( $user );
@@ -283,7 +284,7 @@ class eZUserType extends eZDataType
         // Publishing draft's content
         $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
 
-        if ( !empty( $serializedDraft ) )
+        if ( $user instanceof eZUser && !empty( $serializedDraft ) )
         {
             $user = $this->updateUserDraft( $user, $serializedDraft );
             $user->store();
@@ -384,7 +385,7 @@ class eZUserType extends eZDataType
         //Looking for a "draft" and loading its content
         $serializedDraft = $contentObjectAttribute->attribute( 'data_text' );
 
-        if ( !empty( $serializedDraft ) )
+        if ( $user instanceof eZUser && !empty( $serializedDraft ) )
         {
             $user = $this->updateUserDraft( $user, $serializedDraft );
         }
