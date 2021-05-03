@@ -157,6 +157,8 @@ class ezpKernelRest implements ezpKernelHandler
             $debug = ezpRestDebug::getInstance();
             $debug->updateDebugSettings();
         }
+
+        ezpEvent::getInstance()->registerEventListeners();
     }
 
     /**
