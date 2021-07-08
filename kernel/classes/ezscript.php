@@ -1006,7 +1006,7 @@ class eZScript
 
                         $cli->warning( 'With great power comes great responsibility.' );
                         $cli->warning( "You have 10 seconds to break the script (press Ctrl-C)." );
-                        sleep( 10 );
+                        //sleep( 10 );
                     }
                 }
             }
