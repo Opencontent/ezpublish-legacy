@@ -46,8 +46,8 @@ class eZLog
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
-            $logMessage = "[ " . $time . " ] $message\n";
+            $time = date(DateTime::ISO8601);
+            $logMessage = $time . " $message\n";
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );
             if ( !$fileExisted )
