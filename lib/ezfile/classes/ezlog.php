@@ -28,6 +28,9 @@ class eZLog
     */
     static function write( $message, $logName = 'common.log', $dir = 'var/log' )
     {
+        // Remove line breaks
+        $message = str_replace(array("\r", "\n"), ' ', $message);
+
         $fileName = $dir . '/' . $logName;
         $oldumask = @umask( 0 );
 

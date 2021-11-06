@@ -875,6 +875,9 @@ class eZDebug
     */
     function writeFile( &$logFileData, &$string, $verbosityLevel, $alwaysLog = false )
     {
+        // Remove line breaks
+        $string = str_replace(array("\r", "\n"), ' ', $string);
+
         $enabled = eZDebug::isDebugEnabled();
         if ( !$alwaysLog and !$enabled )
             return;
