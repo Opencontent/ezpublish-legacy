@@ -991,10 +991,10 @@ class eZScript
                     if( !$options['allow-root-user'] )
                     {
                         $cli->warning( "Running scripts as root may be dangerous." );
-                        $cli->warning( "If you think you know what you are doing, you can run this script with the " );
-                        $cli->warning( "root account by appending the parameter --allow-root-user." );
+                        //$cli->warning( "If you think you know what you are doing, you can run this script with the " );
+                        //$cli->warning( "root account by appending the parameter --allow-root-user." );
 
-                        exit( 1 );
+                        //exit( 1 );
                     }
                     else
                     {
@@ -1002,10 +1002,8 @@ class eZScript
                         // running with root priviledges
                         $this->setIsQuiet( false );
 
-                        $cli = eZCLI::instance();
-
                         $cli->warning( 'With great power comes great responsibility.' );
-                        $cli->warning( "You have 10 seconds to break the script (press Ctrl-C)." );
+                        //$cli->warning( "You have 10 seconds to break the script (press Ctrl-C)." );
                         //sleep( 10 );
                     }
                 }
