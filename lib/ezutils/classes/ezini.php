@@ -154,6 +154,8 @@ class eZINI
      */
     public function __construct( $fileName = 'site.ini', $rootDir = '', $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false, $load = true )
     {
+        $this->injectSettingsFromEnv();
+
         $this->Charset = 'utf8';
         if ( $fileName == '' )
             $fileName = 'site.ini';
@@ -205,6 +207,55 @@ class eZINI
 
         if ( $load )
             $this->load();
+    }
+
+    /**
+     * Load settings from env: format is EZINI_{file_without_extension}__{section}__{variable}
+     * Example:
+     * EZINI_site__SiteSettings__SiteName=My Demo Site
+     */
+    private function injectSettingsFromEnv()
+    {
+        $env = getenv();
+        foreach ($env as $key => $value){
+            if (strpos($key, 'EZINI_') === 0){
+                $key = str_replace('EZINI_', '', $key);
+                $parts = explode('__', $key, 4);
+                $file = $parts[0];
+                $section = $parts[1];
+                $variable = $parts[2];
+                $key = false;
+                if (isset($parts[3])){
+                    $key = $parts[3];
+                }
+                $file .= '.ini';
+                if ($key !== false) {
+                    self::$injectedSettings[$file][$section][$variable][$key] = $value;
+                    if (is_numeric($key)){
+                        ksort(self::$injectedSettings[$file][$section][$variable]);
+                    }
+                }else{
+                    self::$injectedSettings[$file][$section][$variable] = $value;
+                }
+            }
+
+            // does not work in eZINI::group()
+            if (strpos($key, 'EZINIMERGE_') === 0){
+                $key = str_replace('EZINIMERGE_', '', $key);
+                $parts = explode('__', $key, 4);
+                $file = $parts[0];
+                $section = $parts[1];
+                $variable = $parts[2];
+                $key = false;
+                if (isset($parts[3])){
+                    $key = $parts[3];
+                }
+                $file .= '.ini';
+                if ($key !== false) {
+                    self::$injectedMergeSettings[$file][$section][$variable][$key] = $value;
+                }
+            }
+        }
     }
 
     /*!
