@@ -907,7 +907,8 @@ class eZDebug
             $ip = eZSys::clientIP();
             if ( !$ip )
                 $ip = eZSys::serverVariable( 'HOSTNAME', true );
-            $notice = "[ " . $time . " ] [" . $ip . "] " . $string . "\n";
+            $logIdentifier = str_replace('.log', '', $logName);
+            $notice = "[ " . $time . " ] [" . $ip . "] [" . $logIdentifier . "] " . $string . "\n";
             @fwrite( $logFile, $notice );
             @fclose( $logFile );
             if ( !$fileExisted )
