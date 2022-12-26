@@ -10,16 +10,27 @@
 
 class eZTimestamp
 {
+    public static function getUtcTimestampFromLocalTimestamp($localTimestamp)
+    {
+        return $localTimestamp;
+    }
+
+    public static function getLocalTimestampFromUtcTimestamp($utcTimestamp)
+    {
+        return $utcTimestamp;
+    }
+
     /*!
      \return a timestamp in UTC
     */
-    public static function getUtcTimestampFromLocalTimestamp( $localTimestamp ) {
-        $utcTimezone = new \DateTimeZone( 'UTC' );
-        $localTimezone = new \DateTimeZone( date_default_timezone_get() );
+    public static function _getUtcTimestampFromLocalTimestamp($localTimestamp)
+    {
+        $utcTimezone = new \DateTimeZone('UTC');
+        $localTimezone = new \DateTimeZone(date_default_timezone_get());
 
-        $localDate = new \DateTime( null, $localTimezone );
-        $localDate->setTimestamp( $localTimestamp );
-        $utcDate = new \DateTime( $localDate->format( 'Y-m-d H:i:s' ), $utcTimezone );
+        $localDate = new \DateTime(null, $localTimezone);
+        $localDate->setTimestamp($localTimestamp);
+        $utcDate = new \DateTime($localDate->format('Y-m-d H:i:s'), $utcTimezone);
 
         return $utcDate->getTimestamp();
     }
@@ -27,15 +38,17 @@ class eZTimestamp
     /*!
      \return a timestamp in timezone defined in php.ini
     */
-    public static function getLocalTimestampFromUtcTimestamp( $utcTimestamp ) {
-        $utcTimezone = new \DateTimeZone( 'UTC' );
-        $localTimezone = new \DateTimeZone( date_default_timezone_get() );
+    public static function _getLocalTimestampFromUtcTimestamp($utcTimestamp)
+    {
+        $utcTimezone = new \DateTimeZone('UTC');
+        $localTimezone = new \DateTimeZone(date_default_timezone_get());
 
-        $utcDate = new \DateTime( null, $utcTimezone );
-        $utcDate->setTimestamp( $utcTimestamp );
-        $localDate = new \DateTime( $utcDate->format( 'Y-m-d H:i:s' ), $localTimezone );
+        $utcDate = new \DateTime(null, $utcTimezone);
+        $utcDate->setTimestamp($utcTimestamp);
+        $localDate = new \DateTime($utcDate->format('Y-m-d H:i:s'), $localTimezone);
 
         return $localDate->getTimestamp();
     }
 }
+
 ?>
