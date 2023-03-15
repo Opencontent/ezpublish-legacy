@@ -1550,7 +1550,7 @@ class eZINI
                 switch ( $signatures[$key] )
                 {
                     case 'enabled':
-                        $ret[$key] = $this->BlockValues[$blockName][$varName] == 'enabled';
+                        $ret[$key] = $ret[$key] == 'enabled';
                         break;
                 }
             }
