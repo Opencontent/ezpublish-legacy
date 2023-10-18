@@ -79,11 +79,13 @@ function eZDisplayResult( $templateResult )
     echo ezpEvent::getInstance()->filter( 'response/output', ob_get_clean() );
 }
 
+
 /**
  * Reads settings from site.ini and passes them to eZDebug
  *
  * @deprecated Since 5.0
  */
+if (!function_exists('eZUpdateDebugSettings')) {
 function eZUpdateDebugSettings()
 {
     $settings = array();
@@ -106,6 +108,7 @@ function eZUpdateDebugSettings()
         $settings['always-log'][$level] = $logList !== null && in_array( $name, $logList );
     }
     eZDebug::updateSettings( $settings );
+}
 }
 
 /**
