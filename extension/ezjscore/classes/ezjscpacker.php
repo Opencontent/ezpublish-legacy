@@ -397,6 +397,21 @@ class ezjscPacker
             return array();
         }
 
+        if ($ezjscINI->hasGroup('CustomAssetsServer')
+            && $ezjscINI->variable('CustomAssetsServer', 'UseCustomAssetsServer') == 'enabled'
+            && $ezjscINI->hasVariable('CustomAssetsServer', 'Handler')) {
+            $sharedHandlerClassName =  $ezjscINI->variable('CustomAssetsServer', 'Handler');
+            if (class_exists($sharedHandlerClassName)
+                && in_array('ezjscSharedHandler', class_implements($sharedHandlerClassName))){
+                $sharedHandler = new $sharedHandlerClassName();
+                self::$log[] = $data;
+                $sharedLink = $sharedHandler->packFiles($data, $subPath);
+                if ($sharedLink){
+                    return $sharedLink;
+                }
+            }
+        }
+
         // See if cahe file exists and if it has expired (only if time is not part of name)
         if ( $ezjscINI->variable( 'Packer', 'AppendLastModifiedTime' ) === 'enabled' )
         {

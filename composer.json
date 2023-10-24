@@ -58,7 +58,8 @@
         "zetacomponents/persistent-object": "~1.8",
         "zetacomponents/signal-slot": "~1.2",
         "zetacomponents/system-information": "~1.1",
-        "zetacomponents/webdav": "~1.1"
+        "zetacomponents/webdav": "~1.1",
+        "opencontent/ezjscore": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.8.36",
@@ -86,6 +87,11 @@
             "dev-2017.12": "2017.12.x-dev",
             "dev-2019.03": "2019.03.x-dev",
             "dev-master": "2020.99.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ezsystems/ezpublish-legacy-installer": true
         }
     }
 }
