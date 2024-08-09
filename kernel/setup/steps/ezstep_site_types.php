@@ -60,7 +60,7 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function downloadFile( $url, $outDir, $forcedFileName = false )
     {
-        $fileName = $outDir . "/" . ( $forcedFileName ? $forcedFileName : basename( $url ) );
+        $fileName = $outDir . "/" . ( $forcedFileName ?: basename( $url ) );
 
         eZDebug::writeNotice( "Downloading file '$fileName' from $url" );
 

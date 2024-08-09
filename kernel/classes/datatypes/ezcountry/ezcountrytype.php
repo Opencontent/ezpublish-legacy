@@ -317,7 +317,7 @@ class eZCountryType extends eZDataType
         foreach ( $countryList as $alpha2 )
         {
             $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );
-            $resultList[$alpha2] = $eZCountry ? $eZCountry : '';
+            $resultList[$alpha2] = $eZCountry ?: '';
         }
         // Supporting of previous version format.
         // For backwards compatibility.

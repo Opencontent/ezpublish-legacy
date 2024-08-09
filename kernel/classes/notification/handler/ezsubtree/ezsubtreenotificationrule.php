@@ -323,8 +323,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $policy = eZPolicy::fetch( $policyID );
         if ( $userLimits )
         {
-            reset( $userLimits );
-            $policy->setAttribute( 'limit_identifier', 'User_' . key( $userLimits ) );
+            $policy->setAttribute( 'limit_identifier', 'User_' . array_key_first( $userLimits ) );
             $policy->setAttribute( 'limit_value', current( $userLimits ) );
         }
 

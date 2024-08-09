@@ -22,7 +22,7 @@ class eZClusterFileHandler
     {
         if ( self::$isShutdownFunctionRegistered !== true )
         {
-            eZExecution::addCleanupHandler( array( __CLASS__, 'cleanupGeneratingFiles' ) );
+            eZExecution::addCleanupHandler( array( self::class, 'cleanupGeneratingFiles' ) );
             self::$isShutdownFunctionRegistered = true;
         }
 

@@ -684,13 +684,11 @@ class eZMultiOption2
             // set the name of the node
             $this->Name = $xpath->query( 'name', $root )->item( 0 )->textContent;
             $this->OptionCounter = $root->getAttribute("option_counter");
-            $this->MultiOptionIDCounter = $root->getAttribute("multioption_counter")
-                                          ?  $root->getAttribute("multioption_counter")
-                                          : $this->MultiOptionIDCounter;
+            $this->MultiOptionIDCounter = $root->getAttribute("multioption_counter") ?: $this->MultiOptionIDCounter;
 
-            $this->GroupIDCounter = $root->getAttribute( 'group_counter ') ? $root->getAttribute( 'group_counter ') : $this->GroupIDCounter;
-            $this->GroupID = $root->getAttribute( 'group_id' ) ? $root->getAttribute( 'group_id' ) : $this->GroupID ;
-            $this->ID = $root->getAttribute( 'id' ) ? $root->getAttribute( 'id' ) : $this->ID;
+            $this->GroupIDCounter = $root->getAttribute( 'group_counter ') ?: $this->GroupIDCounter;
+            $this->GroupID = $root->getAttribute( 'group_id' ) ?: $this->GroupID ;
+            $this->ID = $root->getAttribute( 'id' ) ?: $this->ID;
 
             $multioptionsList = $xpath->query( "multioptions/multioption", $root );
             //Loop for MultiOptions

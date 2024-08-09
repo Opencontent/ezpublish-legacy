@@ -429,7 +429,7 @@ class eZURLWildcard extends eZPersistentObject
             $cacheIndexFile = self::loadCacheFile();
 
             // if NULL is returned, the cache doesn't exist or isn't valid
-            self::$wildcardsIndex = $cacheIndexFile->processFile( array( __CLASS__, 'fetchCacheFile' ), self::expiryTimestamp() );
+            self::$wildcardsIndex = $cacheIndexFile->processFile( array( self::class, 'fetchCacheFile' ), self::expiryTimestamp() );
             if ( self::$wildcardsIndex === null )
             {
                 // This will generate and return the index, and store the cache
@@ -591,7 +591,7 @@ class eZURLWildcard extends eZPersistentObject
         eZDebugSetting::writeDebug( 'kernel-urltranslator', "cacheFileNum = $cacheFileNum", __METHOD__ );
 
         $cacheFile = self::loadCacheFile( $cacheFileNum );
-        $wildcardsInfos = $cacheFile->processFile( array( __CLASS__, 'fetchCacheFile' ) );
+        $wildcardsInfos = $cacheFile->processFile( array( self::class, 'fetchCacheFile' ) );
 
         if ( !isset( $wildcardsInfos[$wildcardNum] ) )
         {

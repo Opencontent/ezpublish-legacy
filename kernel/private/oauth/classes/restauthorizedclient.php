@@ -61,12 +61,12 @@ class ezpRestAuthorizedClient
     {
         $session = ezcPersistentSessionInstance::get();
 
-        $q = $session->createFindQuery( __CLASS__ );
+        $q = $session->createFindQuery( self::class );
 
         $q->where( $q->expr->eq( 'rest_client_id', $q->bindValue( $client->id ) ) )
           ->where( $q->expr->eq( 'user_id', $q->bindValue( $user->attribute( 'contentobject_id' ) ) ) );
 
-        $results = $session->find( $q, __CLASS__ );
+        $results = $session->find( $q, self::class );
 
         if ( count( $results ) != 1 )
             return false;

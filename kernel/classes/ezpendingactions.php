@@ -69,7 +69,7 @@ class eZPendingActions extends eZPersistentObject
         {
             if( count( $aCreationDateFilter ) != 2 )
             {
-                eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
+                eZDebug::writeError( self::class.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );
                 return null;
             }
 
@@ -77,7 +77,7 @@ class eZPendingActions extends eZPersistentObject
             $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );
             if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )
             {
-                eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
+                eZDebug::writeError( self::class.'::'.__METHOD__.' : Wrong filter type for creation date filter' );
                 return null;
             }
 

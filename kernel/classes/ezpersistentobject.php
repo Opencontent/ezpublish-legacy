@@ -1064,9 +1064,7 @@ class eZPersistentObject
         $db = eZDB::instance();
         $table = $def["name"];
         $keys = $def["keys"];
-
-        reset( $orderField );
-        $order_id = key( $orderField );
+        $order_id = array_key_first( $orderField );
         $order_val = $orderField[$order_id];
         if ( $down )
         {

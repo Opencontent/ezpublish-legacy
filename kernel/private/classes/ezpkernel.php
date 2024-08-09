@@ -141,7 +141,7 @@ class ezpKernel implements ezpWebBasedKernelHandler
         {
             throw new LogicException(
                 'Cannot return the instance of '
-                . __CLASS__
+                . self::class
                 . ', it has not been instantiated'
             );
         }

@@ -965,7 +965,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                        null,
-                                                       array( 'contentobject_id'         => $contentObjectID? $contentObjectID: $tmp->attribute( 'contentobject_id' ),
+                                                       array( 'contentobject_id'         => $contentObjectID ?: $tmp->attribute( 'contentobject_id' ),
                                                               'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
                                                               'language_code'            => $newLanguageCode ),
                                                        true );

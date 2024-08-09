@@ -123,7 +123,7 @@ class eZXMLText
                                                         $type,
                                                         $contentObjectAttribute ),
                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),
-                              'aliasOptionalIndex' => ( $type ? $type : null ) );
+                              'aliasOptionalIndex' => ( $type ?: null ) );
 
         $options = new ezpExtensionOptions( $optionArray );
 
@@ -147,7 +147,7 @@ class eZXMLText
                                                         $type,
                                                         $contentObjectAttribute ),
                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),
-                              'aliasOptionalIndex' => ( $type ? $type : null ) );
+                              'aliasOptionalIndex' => ( $type ?: null ) );
 
         $options = new ezpExtensionOptions( $optionArray );
 

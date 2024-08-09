@@ -9,8 +9,8 @@
 $http = eZHTTPTool::instance();
 $module = $Params['Module'];
 
-$currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;
-$toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;
+$currentSiteAccess = $Params['SiteAccess'] ?: false;
+$toolbarPosition = $Params['Position'] ?: false;
 
 
 $http = eZHTTPTool::instance();

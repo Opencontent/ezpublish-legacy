@@ -1602,7 +1602,7 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( $classAttribute->attribute( 'can_translate' ) == 1 )
                 {
-                    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
+                    $classAttribute->instantiate( $contentObjectID ?: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
                 }
                 else
                 {
@@ -1624,7 +1624,7 @@ class eZContentObject extends eZPersistentObject
                     }
                     else
                     {
-                        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
+                        $classAttribute->instantiate( $contentObjectID ?: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
                     }
                 }
             }

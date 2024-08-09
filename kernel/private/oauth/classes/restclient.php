@@ -195,9 +195,9 @@ class ezpRestClient
     {
         $session = ezcPersistentSessionInstance::get();
 
-        $q = $session->createFindQuery( __CLASS__ );
+        $q = $session->createFindQuery( self::class );
         $q->where( $q->expr->eq( 'client_id', $q->bindValue( $clientId ) ) );
-        $results = $session->find( $q, __CLASS__ );
+        $results = $session->find( $q, self::class );
         if ( count( $results ) != 1 )
             return false;
         else

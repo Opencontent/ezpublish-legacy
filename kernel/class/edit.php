@@ -378,7 +378,7 @@ if ( $contentClassHasInput )
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
                 $unvalidatedAttributes[] = array( 'id' => $attribute->attribute( 'id' ),
-                                                  'identifier' => $attribute->attribute( 'identifier' ) ? $attribute->attribute( 'identifier' ) : $attribute->attribute( 'name' ),
+                                                  'identifier' => $attribute->attribute( 'identifier' ) ?: $attribute->attribute( 'name' ),
                                                   'name' => $attributeName );
             }
         }

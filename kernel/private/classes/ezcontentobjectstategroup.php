@@ -673,7 +673,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
                     $limitations[$name] = array(
                         'name'   => $name,
                         'values' => array(),
-                        'class' => __CLASS__,
+                        'class' => self::class,
                         'function' => 'limitationValues',
                         'parameter' => array( $group->attribute( 'id' ) )
                     );

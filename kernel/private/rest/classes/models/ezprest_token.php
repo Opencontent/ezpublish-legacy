@@ -110,7 +110,7 @@ class ezpRestToken implements ezcPersistentObject
     {
         $tokenInfo = null;
         $session = ezcPersistentSessionInstance::get();
-        $q = $session->createFindQuery( __CLASS__ );
+        $q = $session->createFindQuery( self::class );
         $e = $q->expr;
 
         $q->innerJoin( 'ezprest_clients', 'ezprest_token.client_id', 'ezprest_clients.client_id' );

@@ -5,13 +5,6 @@
     },
     "file_diffs": [
         {
-            "file": "kernel/private/modules/oauth/authorize.php",
-            "diff": "--- Original\n+++ New\n@@ -165,7 +165,7 @@\n     $parameters[] = 'access_token=' . urlencode( $rAccessToken );\n     $parameters[] = 'refresh_token=' . urlencode( $rRefreshToken );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n@@ -197,7 +197,7 @@\n \n     $parameters[] = 'code=' . urlencode( $rCode );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n",
-            "applied_rectors": [
-                "Rector\\CodingStyle\\Rector\\FuncCall\\ConsistentImplodeRector"
-            ]
-        },
-        {
             "file": "kernel/private/oauth/classes/restauthorizedclient.php",
             "diff": "--- Original\n+++ New\n@@ -61,12 +61,12 @@\n     {\n         $session = ezcPersistentSessionInstance::get();\n \n-        $q = $session->createFindQuery( __CLASS__ );\n+        $q = $session->createFindQuery( self::class );\n \n         $q->where( $q->expr->eq( 'rest_client_id', $q->bindValue( $client->id ) ) )\n           ->where( $q->expr->eq( 'user_id', $q->bindValue( $user->attribute( 'contentobject_id' ) ) ) );\n \n-        $results = $session->find( $q, __CLASS__ );\n+        $results = $session->find( $q, self::class );\n \n         if ( count( $results ) != 1 )\n             return false;\n",
             "applied_rectors": [
@@ -150,10 +143,16 @@
             "applied_rectors": [
                 "Rector\\CodingStyle\\Rector\\FuncCall\\ConsistentImplodeRector"
             ]
+        },
+        {
+            "file": "kernel/private/modules/oauth/authorize.php",
+            "diff": "--- Original\n+++ New\n@@ -165,7 +165,7 @@\n     $parameters[] = 'access_token=' . urlencode( $rAccessToken );\n     $parameters[] = 'refresh_token=' . urlencode( $rRefreshToken );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n@@ -197,7 +197,7 @@\n \n     $parameters[] = 'code=' . urlencode( $rCode );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n",
+            "applied_rectors": [
+                "Rector\\CodingStyle\\Rector\\FuncCall\\ConsistentImplodeRector"
+            ]
         }
     ],
     "changed_files": [
-        "kernel/private/modules/oauth/authorize.php",
         "kernel/private/oauth/classes/restauthorizedclient.php",
         "kernel/private/oauth/classes/restclient.php",
         "kernel/private/rest/classes/models/ezprest_token.php",
@@ -173,6 +172,7 @@
         "kernel/private/classes/ezcontentobjectstategroup.php",
         "kernel/private/classes/ezpcontentpublishingqueueprocessor.php",
         "kernel/private/classes/ezpkernel.php",
-        "kernel/private/classes/ezplanguageswitcher.php"
+        "kernel/private/classes/ezplanguageswitcher.php",
+        "kernel/private/modules/oauth/authorize.php"
     ]
 }
