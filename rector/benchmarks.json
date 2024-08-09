@@ -1,0 +1,50 @@
+{
+    "totals": {
+        "changed_files": 5,
+        "errors": 0
+    },
+    "file_diffs": [
+        {
+            "file": "benchmarks/classes/ezbenchmarkclirunner.php",
+            "diff": "--- Original\n+++ New\n@@ -129,7 +129,7 @@\n //         }\n     }\n \n-    var $MaxMap = array();\n+    public $MaxMap = array();\n }\n \n ?>\n",
+            "applied_rectors": [
+                "Rector\\Php52\\Rector\\Property\\VarToPublicPropertyRector"
+            ]
+        },
+        {
+            "file": "benchmarks/classes/ezbenchmarkrunner.php",
+            "diff": "--- Original\n+++ New\n@@ -283,11 +283,11 @@\n \n     /// \\privatesection\n     /// An array with test results.\n-    var $Results;\n+    public $Results;\n     /// The current result\n-    var $CurrentResult;\n+    public $CurrentResult;\n     /// The name of the currently running mark or \\c false\n-    var $CurrentMarkName;\n+    public $CurrentMarkName;\n }\n \n ?>\n",
+            "applied_rectors": [
+                "Rector\\Php52\\Rector\\Property\\VarToPublicPropertyRector"
+            ]
+        },
+        {
+            "file": "benchmarks/classes/ezbenchmarkunit.php",
+            "diff": "--- Original\n+++ New\n@@ -85,7 +85,7 @@\n     }\n \n     /// \\privatesection\n-    var $Name;\n+    public $Name;\n }\n \n ?>\n",
+            "applied_rectors": [
+                "Rector\\Php52\\Rector\\Property\\VarToPublicPropertyRector"
+            ]
+        },
+        {
+            "file": "benchmarks/eztemplate/ezmarktemplatecompiler.php",
+            "diff": "--- Original\n+++ New\n@@ -66,7 +66,7 @@\n         $actual = $tpl->fetch( 'benchmarks/eztemplate/mark.tpl' );\n     }\n \n-    var $TPL;\n+    public $TPL;\n }\n \n ?>\n",
+            "applied_rectors": [
+                "Rector\\Php52\\Rector\\Property\\VarToPublicPropertyRector"
+            ]
+        },
+        {
+            "file": "benchmarks/hashing/ezmarkhashing.php",
+            "diff": "--- Original\n+++ New\n@@ -38,7 +38,7 @@\n         eZSys::ezcrc32( $this->Text );\n     }\n \n-    var $Text;\n+    public $Text;\n }\n \n ?>\n",
+            "applied_rectors": [
+                "Rector\\Php52\\Rector\\Property\\VarToPublicPropertyRector"
+            ]
+        }
+    ],
+    "changed_files": [
+        "benchmarks/classes/ezbenchmarkclirunner.php",
+        "benchmarks/classes/ezbenchmarkrunner.php",
+        "benchmarks/classes/ezbenchmarkunit.php",
+        "benchmarks/eztemplate/ezmarktemplatecompiler.php",
+        "benchmarks/hashing/ezmarkhashing.php"
+    ]
+}

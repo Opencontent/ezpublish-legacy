@@ -38,7 +38,7 @@ class eZMarkHashing extends eZBenchmarkCase
         eZSys::ezcrc32( $this->Text );
     }
 
-    var $Text;
+    public $Text;
 }
 
 ?>

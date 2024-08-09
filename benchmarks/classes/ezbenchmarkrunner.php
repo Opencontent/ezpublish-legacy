@@ -283,11 +283,11 @@ class eZBenchmarkrunner
 
     /// \privatesection
     /// An array with test results.
-    var $Results;
+    public $Results;
     /// The current result
-    var $CurrentResult;
+    public $CurrentResult;
     /// The name of the currently running mark or \c false
-    var $CurrentMarkName;
+    public $CurrentMarkName;
 }
 
 ?>

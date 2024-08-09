@@ -85,7 +85,7 @@ class eZBenchmarkUnit
     }
 
     /// \privatesection
-    var $Name;
+    public $Name;
 }
 
 ?>

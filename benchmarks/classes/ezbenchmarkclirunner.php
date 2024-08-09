@@ -129,7 +129,7 @@ class eZBenchmarkCLIRunner extends eZBenchmarkRunner
 //         }
     }
 
-    var $MaxMap = array();
+    public $MaxMap = array();
 }
 
 ?>

@@ -66,7 +66,7 @@ class eZMarkTemplateCompiler extends eZBenchmarkCase
         $actual = $tpl->fetch( 'benchmarks/eztemplate/mark.tpl' );
     }
 
-    var $TPL;
+    public $TPL;
 }
 
 ?>
