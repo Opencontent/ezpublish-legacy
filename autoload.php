@@ -10,7 +10,7 @@
 
 // Disable the PHAR stream wrapper as it is insecure
 if (in_array('phar', stream_get_wrappers())) {
-    stream_wrapper_unregister('phar');
+#    stream_wrapper_unregister('phar');
 }
 
 // config.php can set the components path like:
