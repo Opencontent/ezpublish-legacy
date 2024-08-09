@@ -174,9 +174,7 @@ class eZPDFTable extends Cezpdf
 
         // Get total column count and column indexes
         if (!is_array($cols)){
-            // take the columns from the first row of the data set
-            reset($data);
-            $k=key($data);
+            $k=array_key_first($data);
             $v=current($data);
             if (!is_array($v)){
                 return;

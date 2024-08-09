@@ -1,0 +1,59 @@
+{
+    "totals": {
+        "changed_files": 6,
+        "errors": 0
+    },
+    "file_diffs": [
+        {
+            "file": "lib/ezdb/classes/ezmysqlidb.php",
+            "diff": "--- Original\n+++ New\n@@ -132,7 +132,7 @@\n \n         if ( !$connection )\n         {\n-            eZDebug::writeError( \"Connection error: Couldn't connect to database server. Please try again later or inform the system administrator.\\n{$this->ErrorMessage}\", __CLASS__ );\n+            eZDebug::writeError( \"Connection error: Couldn't connect to database server. Please try again later or inform the system administrator.\\n{$this->ErrorMessage}\", self::class );\n             $this->IsConnected = false;\n             throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );\n         }\n@@ -143,7 +143,7 @@\n             if ( !$ret )\n             {\n                 $this->setError( $connection );\n-                eZDebug::writeError( \"Connection error: Couldn't select the database. Please try again later or inform the system administrator.\\n{$this->ErrorMessage}\", __CLASS__ );\n+                eZDebug::writeError( \"Connection error: Couldn't select the database. Please try again later or inform the system administrator.\\n{$this->ErrorMessage}\", self::class );\n                 $this->IsConnected = false;\n             }\n         }\n@@ -217,7 +217,7 @@\n     {\n         $query = \"SHOW CREATE DATABASE `{$this->DB}`\";\n         $status = mysqli_query( $this->DBConnection, $query );\n-        $this->reportQuery( __CLASS__, $query, false, false );\n+        $this->reportQuery( self::class, $query, false, false );\n         if ( !$status )\n         {\n             $this->setError();\n@@ -394,7 +394,7 @@\n                     if ( $analysisText !== false )\n                         $text = \"EXPLAIN\\n\" . $text . \"\\n\\nANALYSIS:\\n\" . $analysisText;\n \n-                    $this->reportQuery( __CLASS__ . '[' . $connection->host_info . ( $server == eZDBInterface::SERVER_MASTER ? ', on master' : '' ) . ']', $text, $num_rows, $this->timeTaken() );\n+                    $this->reportQuery( self::class . '[' . $connection->host_info . ( $server == eZDBInterface::SERVER_MASTER ? ', on master' : '' ) . ']', $text, $num_rows, $this->timeTaken() );\n                 }\n             }\n             eZDebug::accumulatorStop( 'mysqli_query' );\n@@ -406,7 +406,7 @@\n             {\n                 $this->setError();\n                 $errorMessage = 'Query error (' . $this->ErrorNumber . '): ' . $this->ErrorMessage . '. Query: ' . $sql;\n-                eZDebug::writeError( $errorMessage, __CLASS__  );\n+                eZDebug::writeError( $errorMessage, self::class  );\n                 $oldRecordError = $this->RecordError;\n                 // Turn off error handling while we unlock\n                 $this->RecordError = false;\n@@ -431,7 +431,7 @@\n         }\n         else\n         {\n-            eZDebug::writeError( \"Trying to do a query without being connected to a database!\", __CLASS__ );\n+            eZDebug::writeError( \"Trying to do a query without being connected to a database!\", self::class );\n         }\n \n \n@@ -470,7 +470,7 @@\n \n             if ( $result == false )\n             {\n-                $this->reportQuery( __CLASS__, $sql, false, false );\n+                $this->reportQuery( self::class, $sql, false, false );\n                 return false;\n             }\n \n@@ -588,7 +588,7 @@\n                 {\n                     $query = 'SHOW TABLES from `' . $this->DB .'`';\n                     $result = mysqli_query( $this->DBConnection, $query );\n-                    $this->reportQuery( __CLASS__, $query, false, false );\n+                    $this->reportQuery( self::class, $query, false, false );\n                     $count = mysqli_num_rows( $result );\n                     mysqli_free_result( $result );\n                 } break;\n@@ -618,7 +618,7 @@\n                     $tables = array();\n                     $query = 'SHOW TABLES from `' . $this->DB .'`';\n                     $result = mysqli_query( $this->DBConnection, $query );\n-                    $this->reportQuery( __CLASS__, $query, false, false );\n+                    $this->reportQuery( self::class, $query, false, false );\n                     while( $row = mysqli_fetch_row( $result ) )\n                     {\n                         $tables[] = $row[0];\n@@ -657,7 +657,7 @@\n                     {\n                         $query = \"SHOW CREATE TABLE $table\";\n                         $result = mysqli_query( $this->DBConnection, $query );\n-                        $this->reportQuery( __CLASS__, $query, false, false );\n+                        $this->reportQuery( self::class, $query, false, false );\n                         if ( mysqli_num_rows( $result ) === 1 )\n                         {\n                             $row = mysqli_fetch_row( $result );\n@@ -698,7 +698,7 @@\n \n             $query = 'SHOW TABLES from `' . $db .'`';\n             $result = mysqli_query( $connection, $query );\n-            $this->reportQuery( __CLASS__, $query, false, false );\n+            $this->reportQuery( self::class, $query, false, false );\n             while( $row = mysqli_fetch_row( $result ) )\n             {\n                 $tableName = $row[0];\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "lib/ezdb/classes/ezpostgresqldb.php",
+            "diff": "--- Original\n+++ New\n@@ -292,12 +292,12 @@\n                 return false;\n             }\n \n-            if ( pg_numrows( $result ) > 0 )\n+            if ( pg_num_rows( $result ) > 0 )\n             {\n                 eZDebug::accumulatorStart( 'postgresql_loop', 'postgresql_total', 'Looping result' );\n                 if ( !is_string( $column ) )\n                 {\n-                    for($i = 0; $i < pg_numrows($result); $i++)\n+                    for($i = 0; $i < pg_num_rows($result); $i++)\n                     {\n                         $retArray[$i + $offset] = pg_fetch_array( $result, $i, PGSQL_ASSOC );\n                     }\n@@ -304,7 +304,7 @@\n                 }\n                 else\n                 {\n-                    for ($i = 0; $i < pg_numrows( $result ); $i++ )\n+                    for ($i = 0; $i < pg_num_rows( $result ); $i++ )\n                     {\n                         $tmp_row = pg_fetch_array( $result, $i, PGSQL_ASSOC );\n                         $retArray[$i + $offset] =& $tmp_row[$column];\n",
+            "applied_rectors": [
+                "Rector\\Renaming\\Rector\\FuncCall\\RenameFunctionRector"
+            ]
+        },
+        {
+            "file": "lib/ezpdf/classes/class.ezpdftable.php",
+            "diff": "--- Original\n+++ New\n@@ -174,9 +174,7 @@\n \n         // Get total column count and column indexes\n         if (!is_array($cols)){\n-            // take the columns from the first row of the data set\n-            reset($data);\n-            $k=key($data);\n+            $k=array_key_first($data);\n             $v=current($data);\n             if (!is_array($v)){\n                 return;\n",
+            "applied_rectors": [
+                "Rector\\Php73\\Rector\\FuncCall\\ArrayKeyFirstLastRector"
+            ]
+        },
+        {
+            "file": "lib/ezutils/classes/ezcachehelper.php",
+            "diff": "--- Original\n+++ New\n@@ -39,7 +39,7 @@\n     private function internalClear( $purge, $cacheEntries, $name, $purgeSleep = null, $purgeMax = null, $purgeExpiry = null )\n     {\n         $this->cli->output(\n-            ( $purge ? 'Purging ' : 'Clearing ' ) . $this->cli->stylize( 'emphasize', $name ? $name : 'All cache' ) . ': '\n+            ( $purge ? 'Purging ' : 'Clearing ' ) . $this->cli->stylize( 'emphasize', $name ?: 'All cache' ) . ': '\n         );\n \n         $warnPaths = array();\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "lib/ezutils/classes/ezdebug.php",
+            "diff": "--- Original\n+++ New\n@@ -1166,7 +1166,7 @@\n         // so it can be used in the final check, done by checkDebugByUser()\n         if ( isset( $settings['debug-by-user'] ) && $settings['debug-by-user'] )\n         {\n-            $GLOBALS['eZDebugUserIDList'] = $settings['debug-user-list'] ? $settings['debug-user-list'] : array();\n+            $GLOBALS['eZDebugUserIDList'] = $settings['debug-user-list'] ?: array();\n         }\n \n         $GLOBALS['eZDebugAllowed'] = $GLOBALS['eZDebugAllowedByIP'];\n",
+            "applied_rectors": [
+                "Rector\\Arguments\\Rector\\FuncCall\\FunctionArgumentDefaultValueReplacerRector",
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "lib/ezutils/classes/ezmodule.php",
+            "diff": "--- Original\n+++ New\n@@ -961,7 +961,7 @@\n         // So parsing it with parse_url() as well to only get host.\n         $currentHostname = eZSys::hostname();\n         $currentHostnameParsed = parse_url( $currentHostname, PHP_URL_HOST );\n-        $currentHostname = $currentHostnameParsed ? $currentHostnameParsed : $currentHostname;\n+        $currentHostname = $currentHostnameParsed ?: $currentHostname;\n         if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== $currentHostname )\n         {\n             $allowedHosts = $this->getAllowedRedirectHosts();\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        }
+    ],
+    "changed_files": [
+        "lib/ezdb/classes/ezmysqlidb.php",
+        "lib/ezdb/classes/ezpostgresqldb.php",
+        "lib/ezpdf/classes/class.ezpdftable.php",
+        "lib/ezutils/classes/ezcachehelper.php",
+        "lib/ezutils/classes/ezdebug.php",
+        "lib/ezutils/classes/ezmodule.php"
+    ]
+}

@@ -39,7 +39,7 @@ class eZCacheHelper
     private function internalClear( $purge, $cacheEntries, $name, $purgeSleep = null, $purgeMax = null, $purgeExpiry = null )
     {
         $this->cli->output(
-            ( $purge ? 'Purging ' : 'Clearing ' ) . $this->cli->stylize( 'emphasize', $name ? $name : 'All cache' ) . ': '
+            ( $purge ? 'Purging ' : 'Clearing ' ) . $this->cli->stylize( 'emphasize', $name ?: 'All cache' ) . ': '
         );
 
         $warnPaths = array();

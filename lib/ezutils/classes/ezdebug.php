@@ -1166,7 +1166,7 @@ class eZDebug
         // so it can be used in the final check, done by checkDebugByUser()
         if ( isset( $settings['debug-by-user'] ) && $settings['debug-by-user'] )
         {
-            $GLOBALS['eZDebugUserIDList'] = $settings['debug-user-list'] ? $settings['debug-user-list'] : array();
+            $GLOBALS['eZDebugUserIDList'] = $settings['debug-user-list'] ?: array();
         }
 
         $GLOBALS['eZDebugAllowed'] = $GLOBALS['eZDebugAllowedByIP'];

@@ -961,7 +961,7 @@ class eZModule
         // So parsing it with parse_url() as well to only get host.
         $currentHostname = eZSys::hostname();
         $currentHostnameParsed = parse_url( $currentHostname, PHP_URL_HOST );
-        $currentHostname = $currentHostnameParsed ? $currentHostnameParsed : $currentHostname;
+        $currentHostname = $currentHostnameParsed ?: $currentHostname;
         if ( isset( $urlComponents['host'] ) && $urlComponents['host'] !== $currentHostname )
         {
             $allowedHosts = $this->getAllowedRedirectHosts();

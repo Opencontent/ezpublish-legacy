@@ -132,7 +132,7 @@ class eZMySQLiDB extends eZDBInterface
 
         if ( !$connection )
         {
-            eZDebug::writeError( "Connection error: Couldn't connect to database server. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
+            eZDebug::writeError( "Connection error: Couldn't connect to database server. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", self::class );
             $this->IsConnected = false;
             throw new eZDBNoConnectionException( $server, $this->ErrorMessage, $this->ErrorNumber );
         }
@@ -143,7 +143,7 @@ class eZMySQLiDB extends eZDBInterface
             if ( !$ret )
             {
                 $this->setError( $connection );
-                eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", __CLASS__ );
+                eZDebug::writeError( "Connection error: Couldn't select the database. Please try again later or inform the system administrator.\n{$this->ErrorMessage}", self::class );
                 $this->IsConnected = false;
             }
         }
@@ -217,7 +217,7 @@ class eZMySQLiDB extends eZDBInterface
     {
         $query = "SHOW CREATE DATABASE `{$this->DB}`";
         $status = mysqli_query( $this->DBConnection, $query );
-        $this->reportQuery( __CLASS__, $query, false, false );
+        $this->reportQuery( self::class, $query, false, false );
         if ( !$status )
         {
             $this->setError();
@@ -394,7 +394,7 @@ class eZMySQLiDB extends eZDBInterface
                     if ( $analysisText !== false )
                         $text = "EXPLAIN\n" . $text . "\n\nANALYSIS:\n" . $analysisText;
 
-                    $this->reportQuery( __CLASS__ . '[' . $connection->host_info . ( $server == eZDBInterface::SERVER_MASTER ? ', on master' : '' ) . ']', $text, $num_rows, $this->timeTaken() );
+                    $this->reportQuery( self::class . '[' . $connection->host_info . ( $server == eZDBInterface::SERVER_MASTER ? ', on master' : '' ) . ']', $text, $num_rows, $this->timeTaken() );
                 }
             }
             eZDebug::accumulatorStop( 'mysqli_query' );
@@ -406,7 +406,7 @@ class eZMySQLiDB extends eZDBInterface
             {
                 $this->setError();
                 $errorMessage = 'Query error (' . $this->ErrorNumber . '): ' . $this->ErrorMessage . '. Query: ' . $sql;
-                eZDebug::writeError( $errorMessage, __CLASS__  );
+                eZDebug::writeError( $errorMessage, self::class  );
                 $oldRecordError = $this->RecordError;
                 // Turn off error handling while we unlock
                 $this->RecordError = false;
@@ -431,7 +431,7 @@ class eZMySQLiDB extends eZDBInterface
         }
         else
         {
-            eZDebug::writeError( "Trying to do a query without being connected to a database!", __CLASS__ );
+            eZDebug::writeError( "Trying to do a query without being connected to a database!", self::class );
         }
 
 
@@ -470,7 +470,7 @@ class eZMySQLiDB extends eZDBInterface
 
             if ( $result == false )
             {
-                $this->reportQuery( __CLASS__, $sql, false, false );
+                $this->reportQuery( self::class, $sql, false, false );
                 return false;
             }
 
@@ -588,7 +588,7 @@ class eZMySQLiDB extends eZDBInterface
                 {
                     $query = 'SHOW TABLES from `' . $this->DB .'`';
                     $result = mysqli_query( $this->DBConnection, $query );
-                    $this->reportQuery( __CLASS__, $query, false, false );
+                    $this->reportQuery( self::class, $query, false, false );
                     $count = mysqli_num_rows( $result );
                     mysqli_free_result( $result );
                 } break;
@@ -618,7 +618,7 @@ class eZMySQLiDB extends eZDBInterface
                     $tables = array();
                     $query = 'SHOW TABLES from `' . $this->DB .'`';
                     $result = mysqli_query( $this->DBConnection, $query );
-                    $this->reportQuery( __CLASS__, $query, false, false );
+                    $this->reportQuery( self::class, $query, false, false );
                     while( $row = mysqli_fetch_row( $result ) )
                     {
                         $tables[] = $row[0];
@@ -657,7 +657,7 @@ class eZMySQLiDB extends eZDBInterface
                     {
                         $query = "SHOW CREATE TABLE $table";
                         $result = mysqli_query( $this->DBConnection, $query );
-                        $this->reportQuery( __CLASS__, $query, false, false );
+                        $this->reportQuery( self::class, $query, false, false );
                         if ( mysqli_num_rows( $result ) === 1 )
                         {
                             $row = mysqli_fetch_row( $result );
@@ -698,7 +698,7 @@ class eZMySQLiDB extends eZDBInterface
 
             $query = 'SHOW TABLES from `' . $db .'`';
             $result = mysqli_query( $connection, $query );
-            $this->reportQuery( __CLASS__, $query, false, false );
+            $this->reportQuery( self::class, $query, false, false );
             while( $row = mysqli_fetch_row( $result ) )
             {
                 $tableName = $row[0];
