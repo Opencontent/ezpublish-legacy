@@ -737,7 +737,7 @@ class eZTemplate
      - "text", the text.
      - "time-stamp", the timestamp.
     */
-    function loadURIRoot( $uri, $displayErrors = true, &$extraParameters )
+    function loadURIRoot( $uri, $displayErrors = true, &$extraParameters = null )
     {
         $res = "";
         $template = "";
@@ -794,8 +794,8 @@ class eZTemplate
         return $resourceData;
     }
 
-    function processURI( $uri, $displayErrors = true, &$extraParameters,
-                         &$textElements, $rootNamespace, $currentNamespace )
+    function processURI( $uri, $displayErrors = true, &$extraParameters = null,
+                         &$textElements = null, $rootNamespace = null, $currentNamespace = null )
     {
         $this->Level++;
         if ( $this->Level > $this->MaxLevel )
