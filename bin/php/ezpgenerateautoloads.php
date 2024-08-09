@@ -19,7 +19,7 @@ if ( file_exists( "config.php" ) )
 
 $platformVendorDir = getcwd() . "/../vendor";
 $legacyVendorDir = getcwd() . "/vendor";
-if ( class_exists( 'Composer\Autoload\ClassLoader', false ) )
+if ( class_exists( \Composer\Autoload\ClassLoader::class, false ) )
 {
     // Do nothing, composer autoload already loaded
 }

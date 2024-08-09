@@ -290,7 +290,7 @@ else
 //
 // 'package-dir' option
 //
-$packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/tmp/ezflow";
+$packageDir = $scriptOptions['package-dir'] ?: "/tmp/ezflow";
 
 //
 // 'url' option

@@ -105,7 +105,7 @@ $packageList = array(   'ezwebin_classes'
 //
 // 'package-dir' option
 //
-$packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : "/tmp/ezwebin";
+$packageDir = $scriptOptions['package-dir'] ?: "/tmp/ezwebin";
 
 //
 // 'url' option

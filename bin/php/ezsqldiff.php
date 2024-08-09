@@ -66,21 +66,21 @@ if ( count( $options['arguments'] ) < 2 and
     $script->shutdown( 1 );
 }
 
-$sourceType = $options['source-type'] ? $options['source-type'] : $options['type'];
-$sourceDBHost = $options['source-host'] ? $options['source-host'] : $options['host'];
-$sourceDBUser = $options['source-user'] ? $options['source-user'] : $options['user'];
-$sourceDBPassword = $options['source-password'] ? $options['source-password'] : $options['password'];
-$sourceDBSocket = $options['source-socket'] ? $options['source-socket'] : $options['socket'];
+$sourceType = $options['source-type'] ?: $options['type'];
+$sourceDBHost = $options['source-host'] ?: $options['host'];
+$sourceDBUser = $options['source-user'] ?: $options['user'];
+$sourceDBPassword = $options['source-password'] ?: $options['password'];
+$sourceDBSocket = $options['source-socket'] ?: $options['socket'];
 $sourceDB = $options['arguments'][0];
 
 if( !is_string( $sourceDBPassword ) )
     $sourceDBPassword = '';
 
-$matchType = $options['match-type'] ? $options['match-type'] : $options['type'];
-$matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];
-$matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];
-$matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];
-$matchDBSocket = $options['match-socket'] ? $options['match-socket'] : $options['socket'];
+$matchType = $options['match-type'] ?: $options['type'];
+$matchDBHost = $options['match-host'] ?: $options['host'];
+$matchDBUser = $options['match-user'] ?: $options['user'];
+$matchDBPassword = $options['match-password'] ?: $options['password'];
+$matchDBSocket = $options['match-socket'] ?: $options['socket'];
 $matchDB = count( $options['arguments'] ) >= 2 ? $options['arguments'][1] : '';
 
 if ( !is_string( $matchDBPassword ) )

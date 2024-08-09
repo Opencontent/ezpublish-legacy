@@ -1544,7 +1544,7 @@ if ( !checkDBDriver() )
     showError( "Unsupported db type '$dbType'");
 }
 
-$logFilename = $options['log-filename'] ? $options['log-filename'] : false;
+$logFilename = $options['log-filename'] ?: false;
 CommandLineArguments::setLogFilename( $logFilename );
 if( CommandLineArguments::logFilename() !== false )
 {
@@ -1553,7 +1553,7 @@ if( CommandLineArguments::logFilename() !== false )
 }
 
 
-$iconvCharacterSet = $options["iconv-character-set"] ? $options["iconv-character-set"] : false;
+$iconvCharacterSet = $options["iconv-character-set"] ?: false;
 CommandLineArguments::setIconvCharacterSet( $iconvCharacterSet );
 
 if ( !checkDBCharset( $iconvCharacterSet ) )
@@ -1584,12 +1584,12 @@ echo "\n";
 
 
 $skipClassTranslations = $options["skip-class-translations"];
-$collation = $options['collation'] ? $options['collation'] : 'utf8_general_ci';
+$collation = $options['collation'] ?: 'utf8_general_ci';
 
 //
 // get info about extra xml attributes
 //
-$xmlAttributesOption = $options['extra-xml-attributes'] ? $options['extra-xml-attributes'] : '';
+$xmlAttributesOption = $options['extra-xml-attributes'] ?: '';
 
 //
 // add info about standard xml attributes
@@ -1620,14 +1620,14 @@ if ( $xmlAttributesInfo && count( $xmlAttributesInfo ) == 0 )
 //
 // get info about custom xml data
 //
-$xmlCustomDataOption = $options['extra-xml-data'] ? $options['extra-xml-data'] : '';
+$xmlCustomDataOption = $options['extra-xml-data'] ?: '';
 $xmlCustomDataInfo = parseCustomXMLDataOption( $xmlCustomDataOption );
 
 
 //
 // get info about custom serialized data
 //
-$serializedCustomDataOption = $options['extra-serialized-data'] ? $options['extra-serialized-data'] : '';
+$serializedCustomDataOption = $options['extra-serialized-data'] ?: '';
 $serializedDataInfo = parseCustomSerializedDataOption( $serializedCustomDataOption );
 
 

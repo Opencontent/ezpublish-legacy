@@ -1,0 +1,114 @@
+{
+    "totals": {
+        "changed_files": 13,
+        "errors": 0
+    },
+    "file_diffs": [
+        {
+            "file": "bin/php/ezconvertdbcharset.php",
+            "diff": "--- Original\n+++ New\n@@ -1544,7 +1544,7 @@\n     showError( \"Unsupported db type '$dbType'\");\n }\n \n-$logFilename = $options['log-filename'] ? $options['log-filename'] : false;\n+$logFilename = $options['log-filename'] ?: false;\n CommandLineArguments::setLogFilename( $logFilename );\n if( CommandLineArguments::logFilename() !== false )\n {\n@@ -1553,7 +1553,7 @@\n }\n \n \n-$iconvCharacterSet = $options[\"iconv-character-set\"] ? $options[\"iconv-character-set\"] : false;\n+$iconvCharacterSet = $options[\"iconv-character-set\"] ?: false;\n CommandLineArguments::setIconvCharacterSet( $iconvCharacterSet );\n \n if ( !checkDBCharset( $iconvCharacterSet ) )\n@@ -1584,12 +1584,12 @@\n \n \n $skipClassTranslations = $options[\"skip-class-translations\"];\n-$collation = $options['collation'] ? $options['collation'] : 'utf8_general_ci';\n+$collation = $options['collation'] ?: 'utf8_general_ci';\n \n //\n // get info about extra xml attributes\n //\n-$xmlAttributesOption = $options['extra-xml-attributes'] ? $options['extra-xml-attributes'] : '';\n+$xmlAttributesOption = $options['extra-xml-attributes'] ?: '';\n \n //\n // add info about standard xml attributes\n@@ -1620,7 +1620,7 @@\n //\n // get info about custom xml data\n //\n-$xmlCustomDataOption = $options['extra-xml-data'] ? $options['extra-xml-data'] : '';\n+$xmlCustomDataOption = $options['extra-xml-data'] ?: '';\n $xmlCustomDataInfo = parseCustomXMLDataOption( $xmlCustomDataOption );\n \n \n@@ -1627,7 +1627,7 @@\n //\n // get info about custom serialized data\n //\n-$serializedCustomDataOption = $options['extra-serialized-data'] ? $options['extra-serialized-data'] : '';\n+$serializedCustomDataOption = $options['extra-serialized-data'] ?: '';\n $serializedDataInfo = parseCustomSerializedDataOption( $serializedCustomDataOption );\n \n \n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezflowupgrade.php",
+            "diff": "--- Original\n+++ New\n@@ -290,7 +290,7 @@\n //\n // 'package-dir' option\n //\n-$packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : \"/tmp/ezflow\";\n+$packageDir = $scriptOptions['package-dir'] ?: \"/tmp/ezflow\";\n \n //\n // 'url' option\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezpgenerateautoloads.php",
+            "diff": "--- Original\n+++ New\n@@ -19,7 +19,7 @@\n \n $platformVendorDir = getcwd() . \"/../vendor\";\n $legacyVendorDir = getcwd() . \"/vendor\";\n-if ( class_exists( 'Composer\\Autoload\\ClassLoader', false ) )\n+if ( class_exists( \\Composer\\Autoload\\ClassLoader::class, false ) )\n {\n     // Do nothing, composer autoload already loaded\n }\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\String_\\StringClassNameToClassConstantRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezsqldiff.php",
+            "diff": "--- Original\n+++ New\n@@ -66,21 +66,21 @@\n     $script->shutdown( 1 );\n }\n \n-$sourceType = $options['source-type'] ? $options['source-type'] : $options['type'];\n-$sourceDBHost = $options['source-host'] ? $options['source-host'] : $options['host'];\n-$sourceDBUser = $options['source-user'] ? $options['source-user'] : $options['user'];\n-$sourceDBPassword = $options['source-password'] ? $options['source-password'] : $options['password'];\n-$sourceDBSocket = $options['source-socket'] ? $options['source-socket'] : $options['socket'];\n+$sourceType = $options['source-type'] ?: $options['type'];\n+$sourceDBHost = $options['source-host'] ?: $options['host'];\n+$sourceDBUser = $options['source-user'] ?: $options['user'];\n+$sourceDBPassword = $options['source-password'] ?: $options['password'];\n+$sourceDBSocket = $options['source-socket'] ?: $options['socket'];\n $sourceDB = $options['arguments'][0];\n \n if( !is_string( $sourceDBPassword ) )\n     $sourceDBPassword = '';\n \n-$matchType = $options['match-type'] ? $options['match-type'] : $options['type'];\n-$matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];\n-$matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];\n-$matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];\n-$matchDBSocket = $options['match-socket'] ? $options['match-socket'] : $options['socket'];\n+$matchType = $options['match-type'] ?: $options['type'];\n+$matchDBHost = $options['match-host'] ?: $options['host'];\n+$matchDBUser = $options['match-user'] ?: $options['user'];\n+$matchDBPassword = $options['match-password'] ?: $options['password'];\n+$matchDBSocket = $options['match-socket'] ?: $options['socket'];\n $matchDB = count( $options['arguments'] ) >= 2 ? $options['arguments'][1] : '';\n \n if ( !is_string( $matchDBPassword ) )\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezsqldumpisbndata.php",
+            "diff": "--- Original\n+++ New\n@@ -57,11 +57,11 @@\n  // default settings are not valid\n  // try user-defined settings\n \n- $dbUser = $options['db-user'] ? $options['db-user'] : false;\n- $dbPassword = $options['db-password'] ? $options['db-password'] : false;\n- $dbHost = $options['db-host'] ? $options['db-host'] : false;\n- $dbName = $options['db-database'] ? $options['db-database'] : false;\n- $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;\n+ $dbUser = $options['db-user'] ?: false;\n+ $dbPassword = $options['db-password'] ?: false;\n+ $dbHost = $options['db-host'] ?: false;\n+ $dbName = $options['db-database'] ?: false;\n+ $dbImpl = $options['db-driver'] ?: false;\n \n  if ( $dbHost or $dbName or $dbUser or $dbImpl )\n  {\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezsqldumpschema.php",
+            "diff": "--- Original\n+++ New\n@@ -121,7 +121,7 @@\n \n $dbschemaParameters = array( 'schema' => $includeSchema,\n                              'data' => $includeData,\n-                             'format' => $options['format'] ? $options['format'] : 'generic',\n+                             'format' => $options['format'] ?: 'generic',\n                              'meta_data' => $options['meta-data'],\n                              'table_type' => $options['table-type'],\n                              'table_charset' => $options['table-charset'],\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezsubtreecopy.php",
+            "diff": "--- Original\n+++ New\n@@ -38,8 +38,8 @@\n                                      );\n $script->initialize();\n \n-$srcNodeID   = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;\n-$dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;\n+$srcNodeID   = $scriptOptions[ 'src-node-id' ] ?: false;\n+$dstNodeID   = $scriptOptions[ 'dst-node-id' ] ?: false;\n $allVersions = $scriptOptions[ 'all-versions' ];\n $keepCreator = $scriptOptions[ 'keep-creator' ];\n $keepTime    = $scriptOptions[ 'keep-time' ];\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezwebininstall.php",
+            "diff": "--- Original\n+++ New\n@@ -105,7 +105,7 @@\n //\n // 'package-dir' option\n //\n-$packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : \"/tmp/ezwebin\";\n+$packageDir = $scriptOptions['package-dir'] ?: \"/tmp/ezwebin\";\n \n //\n // 'url' option\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/ezwebinupgrade.php",
+            "diff": "--- Original\n+++ New\n@@ -450,7 +450,7 @@\n //\n // 'package-dir' option\n //\n-$packageDir = $scriptOptions['package-dir'] ? $scriptOptions['package-dir'] : \"/tmp/ezwebin\";\n+$packageDir = $scriptOptions['package-dir'] ?: \"/tmp/ezwebin\";\n \n //\n // 'url' option\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/flatten.php",
+            "diff": "--- Original\n+++ New\n@@ -45,13 +45,13 @@\n     $script->shutdown( 1 );\n }\n \n-$dbUser = $options['db-user'] ? $options['db-user'] : false;\n-$dbPassword = $options['db-password'] ? $options['db-password'] : false;\n-$dbHost = $options['db-host'] ? $options['db-host'] : false;\n-$dbName = $options['db-database'] ? $options['db-database'] : false;\n-$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;\n+$dbUser = $options['db-user'] ?: false;\n+$dbPassword = $options['db-password'] ?: false;\n+$dbHost = $options['db-host'] ?: false;\n+$dbName = $options['db-database'] ?: false;\n+$dbImpl = $options['db-driver'] ?: false;\n $showSQL = $options['sql'] ? true : false;\n-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;\n+$siteAccess = $options['siteaccess'] ?: false;\n \n if ( $siteAccess )\n {\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/updateisbn13.php",
+            "diff": "--- Original\n+++ New\n@@ -56,11 +56,11 @@\n     // default settings are not valid\n     // try user-defined settings\n \n-    $dbUser = $options['db-user'] ? $options['db-user'] : false;\n-    $dbPassword = $options['db-password'] ? $options['db-password'] : false;\n-    $dbHost = $options['db-host'] ? $options['db-host'] : false;\n-    $dbName = $options['db-database'] ? $options['db-database'] : false;\n-    $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;\n+    $dbUser = $options['db-user'] ?: false;\n+    $dbPassword = $options['db-password'] ?: false;\n+    $dbHost = $options['db-host'] ?: false;\n+    $dbName = $options['db-database'] ?: false;\n+    $dbImpl = $options['db-driver'] ?: false;\n \n     if ( $dbHost or $dbName or $dbUser or $dbImpl )\n     {\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/updateniceurls.php",
+            "diff": "--- Original\n+++ New\n@@ -60,13 +60,13 @@\n                                        ) );\n $script->initialize();\n \n-$dbUser = $options['db-user'] ? $options['db-user'] : false;\n-$dbPassword = $options['db-password'] ? $options['db-password'] : false;\n+$dbUser = $options['db-user'] ?: false;\n+$dbPassword = $options['db-password'] ?: false;\n $dbHost = isset( $options['db-host'] ) && $options['db-host'] ? $options['db-host'] : false;\n-$dbName = $options['db-database'] ? $options['db-database'] : false;\n-$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;\n+$dbName = $options['db-database'] ?: false;\n+$dbImpl = $options['db-driver'] ?: false;\n $showSQL = $options['sql'] ? true : false;\n-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;\n+$siteAccess = $options['siteaccess'] ?: false;\n if ( $siteAccess )\n {\n     changeSiteAccessSetting( $siteAccess );\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "bin/php/updatesearchindex.php",
+            "diff": "--- Original\n+++ New\n@@ -40,13 +40,13 @@\n \n $script->setIterationData( '.', '~' );\n \n-$dbUser = $options['db-user'] ? $options['db-user'] : false;\n-$dbPassword = $options['db-password'] ? $options['db-password'] : false;\n-$dbHost = $options['db-host'] ? $options['db-host'] : false;\n-$dbName = $options['db-database'] ? $options['db-database'] : false;\n-$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;\n+$dbUser = $options['db-user'] ?: false;\n+$dbPassword = $options['db-password'] ?: false;\n+$dbHost = $options['db-host'] ?: false;\n+$dbName = $options['db-database'] ?: false;\n+$dbImpl = $options['db-driver'] ?: false;\n $showSQL = $options['sql'] ? true : false;\n-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;\n+$siteAccess = $options['siteaccess'] ?: false;\n $cleanupSearch = $options['clean'] ? true : false;\n \n if ( $siteAccess )\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        }
+    ],
+    "changed_files": [
+        "bin/php/ezconvertdbcharset.php",
+        "bin/php/ezflowupgrade.php",
+        "bin/php/ezpgenerateautoloads.php",
+        "bin/php/ezsqldiff.php",
+        "bin/php/ezsqldumpisbndata.php",
+        "bin/php/ezsqldumpschema.php",
+        "bin/php/ezsubtreecopy.php",
+        "bin/php/ezwebininstall.php",
+        "bin/php/ezwebinupgrade.php",
+        "bin/php/flatten.php",
+        "bin/php/updateisbn13.php",
+        "bin/php/updateniceurls.php",
+        "bin/php/updatesearchindex.php"
+    ]
+}

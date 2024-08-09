@@ -121,7 +121,7 @@ if ( $options['output-types'] )
 
 $dbschemaParameters = array( 'schema' => $includeSchema,
                              'data' => $includeData,
-                             'format' => $options['format'] ? $options['format'] : 'generic',
+                             'format' => $options['format'] ?: 'generic',
                              'meta_data' => $options['meta-data'],
                              'table_type' => $options['table-type'],
                              'table_charset' => $options['table-charset'],

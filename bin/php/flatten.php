@@ -45,13 +45,13 @@ if ( count( $options['arguments'] ) < 1 )
     $script->shutdown( 1 );
 }
 
-$dbUser = $options['db-user'] ? $options['db-user'] : false;
-$dbPassword = $options['db-password'] ? $options['db-password'] : false;
-$dbHost = $options['db-host'] ? $options['db-host'] : false;
-$dbName = $options['db-database'] ? $options['db-database'] : false;
-$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
+$dbUser = $options['db-user'] ?: false;
+$dbPassword = $options['db-password'] ?: false;
+$dbHost = $options['db-host'] ?: false;
+$dbName = $options['db-database'] ?: false;
+$dbImpl = $options['db-driver'] ?: false;
 $showSQL = $options['sql'] ? true : false;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
+$siteAccess = $options['siteaccess'] ?: false;
 
 if ( $siteAccess )
 {

@@ -38,8 +38,8 @@ $scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][all-versions
                                      );
 $script->initialize();
 
-$srcNodeID   = $scriptOptions[ 'src-node-id' ] ? $scriptOptions[ 'src-node-id' ] : false;
-$dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ] : false;
+$srcNodeID   = $scriptOptions[ 'src-node-id' ] ?: false;
+$dstNodeID   = $scriptOptions[ 'dst-node-id' ] ?: false;
 $allVersions = $scriptOptions[ 'all-versions' ];
 $keepCreator = $scriptOptions[ 'keep-creator' ];
 $keepTime    = $scriptOptions[ 'keep-time' ];

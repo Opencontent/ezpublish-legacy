@@ -56,11 +56,11 @@ if( !$db->IsConnected )
     // default settings are not valid
     // try user-defined settings
 
-    $dbUser = $options['db-user'] ? $options['db-user'] : false;
-    $dbPassword = $options['db-password'] ? $options['db-password'] : false;
-    $dbHost = $options['db-host'] ? $options['db-host'] : false;
-    $dbName = $options['db-database'] ? $options['db-database'] : false;
-    $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
+    $dbUser = $options['db-user'] ?: false;
+    $dbPassword = $options['db-password'] ?: false;
+    $dbHost = $options['db-host'] ?: false;
+    $dbName = $options['db-database'] ?: false;
+    $dbImpl = $options['db-driver'] ?: false;
 
     if ( $dbHost or $dbName or $dbUser or $dbImpl )
     {
