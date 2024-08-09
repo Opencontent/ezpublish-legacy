@@ -10,7 +10,7 @@
 
 class ezpLanguageSwitcherFunctionCollection
 {
-    public function fetchUrlAlias( $nodeId = null, $path = null, $locale )
+    public function fetchUrlAlias( $nodeId = null, $path = null, $locale = null )
     {
         if ( !$nodeId && !$path )
         {

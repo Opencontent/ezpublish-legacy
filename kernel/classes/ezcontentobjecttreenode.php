@@ -2380,7 +2380,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \sa subTreeCount
     */
-    static function subTreeCountByNodeID( $params = array(), $nodeID )
+    static function subTreeCountByNodeID( $params = array(), $nodeID = 0 )
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
@@ -2868,7 +2868,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    static function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID, $updateSection = true )
+    static function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID = 0, $updateSection = true )
     {
         $mainNodeID = (int)$mainNodeID;
         $parentMainNodeID = (int)$parentMainNodeID;

@@ -16,7 +16,7 @@
 
 class eZPackageFunctionCollection
 {
-    function fetchList( $filterArray = false, $offset, $limit, $repositoryID )
+    function fetchList( $filterArray = false, $offset = 0, $limit = 10, $repositoryID = 0 )
     {
         $filterParams = array();
         $filterList = false;
@@ -100,7 +100,7 @@ class eZPackageFunctionCollection
         return $retValue;
     }
 
-    function fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
+    function fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID = null )
     {
         $filterParams = array();
         $filterList = false;

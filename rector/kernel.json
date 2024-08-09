@@ -1,0 +1,178 @@
+{
+    "totals": {
+        "changed_files": 21,
+        "errors": 0
+    },
+    "file_diffs": [
+        {
+            "file": "kernel/private/modules/oauth/authorize.php",
+            "diff": "--- Original\n+++ New\n@@ -165,7 +165,7 @@\n     $parameters[] = 'access_token=' . urlencode( $rAccessToken );\n     $parameters[] = 'refresh_token=' . urlencode( $rRefreshToken );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n@@ -197,7 +197,7 @@\n \n     $parameters[] = 'code=' . urlencode( $rCode );\n     $parameters[] = \"expires_in=$rExpiresIn\";\n-    $location = \"{$pRedirectUri}?\" . implode( $parameters, '&' );\n+    $location = \"{$pRedirectUri}?\" . implode( '&', $parameters );\n \n     response( '302 Found', $location );\n }\n",
+            "applied_rectors": [
+                "Rector\\CodingStyle\\Rector\\FuncCall\\ConsistentImplodeRector"
+            ]
+        },
+        {
+            "file": "kernel/private/oauth/classes/restauthorizedclient.php",
+            "diff": "--- Original\n+++ New\n@@ -61,12 +61,12 @@\n     {\n         $session = ezcPersistentSessionInstance::get();\n \n-        $q = $session->createFindQuery( __CLASS__ );\n+        $q = $session->createFindQuery( self::class );\n \n         $q->where( $q->expr->eq( 'rest_client_id', $q->bindValue( $client->id ) ) )\n           ->where( $q->expr->eq( 'user_id', $q->bindValue( $user->attribute( 'contentobject_id' ) ) ) );\n \n-        $results = $session->find( $q, __CLASS__ );\n+        $results = $session->find( $q, self::class );\n \n         if ( count( $results ) != 1 )\n             return false;\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/private/oauth/classes/restclient.php",
+            "diff": "--- Original\n+++ New\n@@ -195,9 +195,9 @@\n     {\n         $session = ezcPersistentSessionInstance::get();\n \n-        $q = $session->createFindQuery( __CLASS__ );\n+        $q = $session->createFindQuery( self::class );\n         $q->where( $q->expr->eq( 'client_id', $q->bindValue( $clientId ) ) );\n-        $results = $session->find( $q, __CLASS__ );\n+        $results = $session->find( $q, self::class );\n         if ( count( $results ) != 1 )\n             return false;\n         else\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/private/rest/classes/models/ezprest_token.php",
+            "diff": "--- Original\n+++ New\n@@ -110,7 +110,7 @@\n     {\n         $tokenInfo = null;\n         $session = ezcPersistentSessionInstance::get();\n-        $q = $session->createFindQuery( __CLASS__ );\n+        $q = $session->createFindQuery( self::class );\n         $e = $q->expr;\n \n         $q->innerJoin( 'ezprest_clients', 'ezprest_token.client_id', 'ezprest_clients.client_id' );\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/setup/steps/ezstep_site_types.php",
+            "diff": "--- Original\n+++ New\n@@ -60,7 +60,7 @@\n      */\n     function downloadFile( $url, $outDir, $forcedFileName = false )\n     {\n-        $fileName = $outDir . \"/\" . ( $forcedFileName ? $forcedFileName : basename( $url ) );\n+        $fileName = $outDir . \"/\" . ( $forcedFileName ?: basename( $url ) );\n \n         eZDebug::writeNotice( \"Downloading file '$fileName' from $url\" );\n \n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/visual/toolbar.php",
+            "diff": "--- Original\n+++ New\n@@ -9,8 +9,8 @@\n $http = eZHTTPTool::instance();\n $module = $Params['Module'];\n \n-$currentSiteAccess = ( $Params['SiteAccess'] ) ? $Params['SiteAccess'] : false;\n-$toolbarPosition = ( $Params['Position'] ) ? $Params['Position'] : false;\n+$currentSiteAccess = $Params['SiteAccess'] ?: false;\n+$toolbarPosition = $Params['Position'] ?: false;\n \n \n $http = eZHTTPTool::instance();\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/class/edit.php",
+            "diff": "--- Original\n+++ New\n@@ -378,7 +378,7 @@\n                 $attributeName = $dataType->attribute( 'information' );\n                 $attributeName = $attributeName['name'];\n                 $unvalidatedAttributes[] = array( 'id' => $attribute->attribute( 'id' ),\n-                                                  'identifier' => $attribute->attribute( 'identifier' ) ? $attribute->attribute( 'identifier' ) : $attribute->attribute( 'name' ),\n+                                                  'identifier' => $attribute->attribute( 'identifier' ) ?: $attribute->attribute( 'name' ),\n                                                   'name' => $attributeName );\n             }\n         }\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/datatypes/ezcountry/ezcountrytype.php",
+            "diff": "--- Original\n+++ New\n@@ -317,7 +317,7 @@\n         foreach ( $countryList as $alpha2 )\n         {\n             $eZCountry = eZCountryType::fetchCountry( $alpha2, 'Alpha2' );\n-            $resultList[$alpha2] = $eZCountry ? $eZCountry : '';\n+            $resultList[$alpha2] = $eZCountry ?: '';\n         }\n         // Supporting of previous version format.\n         // For backwards compatibility.\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/datatypes/ezmultioption2/ezmultioption2.php",
+            "diff": "--- Original\n+++ New\n@@ -684,13 +684,11 @@\n             // set the name of the node\n             $this->Name = $xpath->query( 'name', $root )->item( 0 )->textContent;\n             $this->OptionCounter = $root->getAttribute(\"option_counter\");\n-            $this->MultiOptionIDCounter = $root->getAttribute(\"multioption_counter\")\n-                                          ?  $root->getAttribute(\"multioption_counter\")\n-                                          : $this->MultiOptionIDCounter;\n+            $this->MultiOptionIDCounter = $root->getAttribute(\"multioption_counter\") ?: $this->MultiOptionIDCounter;\n \n-            $this->GroupIDCounter = $root->getAttribute( 'group_counter ') ? $root->getAttribute( 'group_counter ') : $this->GroupIDCounter;\n-            $this->GroupID = $root->getAttribute( 'group_id' ) ? $root->getAttribute( 'group_id' ) : $this->GroupID ;\n-            $this->ID = $root->getAttribute( 'id' ) ? $root->getAttribute( 'id' ) : $this->ID;\n+            $this->GroupIDCounter = $root->getAttribute( 'group_counter ') ?: $this->GroupIDCounter;\n+            $this->GroupID = $root->getAttribute( 'group_id' ) ?: $this->GroupID ;\n+            $this->ID = $root->getAttribute( 'id' ) ?: $this->ID;\n \n             $multioptionsList = $xpath->query( \"multioptions/multioption\", $root );\n             //Loop for MultiOptions\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/datatypes/ezxmltext/ezxmltext.php",
+            "diff": "--- Original\n+++ New\n@@ -123,7 +123,7 @@\n                                                         $type,\n                                                         $contentObjectAttribute ),\n                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),\n-                              'aliasOptionalIndex' => ( $type ? $type : null ) );\n+                              'aliasOptionalIndex' => ( $type ?: null ) );\n \n         $options = new ezpExtensionOptions( $optionArray );\n \n@@ -147,7 +147,7 @@\n                                                         $type,\n                                                         $contentObjectAttribute ),\n                               'aliasVariable' => ( $useAlias ? 'AliasClasses' : null ),\n-                              'aliasOptionalIndex' => ( $type ? $type : null ) );\n+                              'aliasOptionalIndex' => ( $type ?: null ) );\n \n         $options = new ezpExtensionOptions( $optionArray );\n \n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezclusterfilehandler.php",
+            "diff": "--- Original\n+++ New\n@@ -22,7 +22,7 @@\n     {\n         if ( self::$isShutdownFunctionRegistered !== true )\n         {\n-            eZExecution::addCleanupHandler( array( __CLASS__, 'cleanupGeneratingFiles' ) );\n+            eZExecution::addCleanupHandler( array( self::class, 'cleanupGeneratingFiles' ) );\n             self::$isShutdownFunctionRegistered = true;\n         }\n \n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezcontentobject.php",
+            "diff": "--- Original\n+++ New\n@@ -1602,7 +1602,7 @@\n             {\n                 if ( $classAttribute->attribute( 'can_translate' ) == 1 )\n                 {\n-                    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );\n+                    $classAttribute->instantiate( $contentObjectID ?: $this->attribute( 'id' ), $languageCode, $newVersionNumber );\n                 }\n                 else\n                 {\n@@ -1624,7 +1624,7 @@\n                     }\n                     else\n                     {\n-                        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );\n+                        $classAttribute->instantiate( $contentObjectID ?: $this->attribute( 'id' ), $languageCode, $newVersionNumber );\n                     }\n                 }\n             }\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezcontentobjectattribute.php",
+            "diff": "--- Original\n+++ New\n@@ -965,7 +965,7 @@\n         {\n             $exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),\n                                                        null,\n-                                                       array( 'contentobject_id'         => $contentObjectID? $contentObjectID: $tmp->attribute( 'contentobject_id' ),\n+                                                       array( 'contentobject_id'         => $contentObjectID ?: $tmp->attribute( 'contentobject_id' ),\n                                                               'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),\n                                                               'language_code'            => $newLanguageCode ),\n                                                        true );\n",
+            "applied_rectors": [
+                "Rector\\Php53\\Rector\\Ternary\\TernaryToElvisRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezpendingactions.php",
+            "diff": "--- Original\n+++ New\n@@ -69,7 +69,7 @@\n         {\n             if( count( $aCreationDateFilter ) != 2 )\n             {\n-                eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );\n+                eZDebug::writeError( self::class.'::'.__METHOD__.' : Wrong number of entries for Creation date filter array' );\n                 return null;\n             }\n \n@@ -77,7 +77,7 @@\n             $aAuthorizedFilterTokens = array( '=', '<', '>', '<=', '>=' );\n             if( !is_string( $filterToken ) || !in_array( $filterToken, $aAuthorizedFilterTokens ) )\n             {\n-                eZDebug::writeError( __CLASS__.'::'.__METHOD__.' : Wrong filter type for creation date filter' );\n+                eZDebug::writeError( self::class.'::'.__METHOD__.' : Wrong filter type for creation date filter' );\n                 return null;\n             }\n \n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezpersistentobject.php",
+            "diff": "--- Original\n+++ New\n@@ -1064,9 +1064,7 @@\n         $db = eZDB::instance();\n         $table = $def[\"name\"];\n         $keys = $def[\"keys\"];\n-\n-        reset( $orderField );\n-        $order_id = key( $orderField );\n+        $order_id = array_key_first( $orderField );\n         $order_val = $orderField[$order_id];\n         if ( $down )\n         {\n",
+            "applied_rectors": [
+                "Rector\\Php73\\Rector\\FuncCall\\ArrayKeyFirstLastRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/ezurlwildcard.php",
+            "diff": "--- Original\n+++ New\n@@ -429,7 +429,7 @@\n             $cacheIndexFile = self::loadCacheFile();\n \n             // if NULL is returned, the cache doesn't exist or isn't valid\n-            self::$wildcardsIndex = $cacheIndexFile->processFile( array( __CLASS__, 'fetchCacheFile' ), self::expiryTimestamp() );\n+            self::$wildcardsIndex = $cacheIndexFile->processFile( array( self::class, 'fetchCacheFile' ), self::expiryTimestamp() );\n             if ( self::$wildcardsIndex === null )\n             {\n                 // This will generate and return the index, and store the cache\n@@ -591,7 +591,7 @@\n         eZDebugSetting::writeDebug( 'kernel-urltranslator', \"cacheFileNum = $cacheFileNum\", __METHOD__ );\n \n         $cacheFile = self::loadCacheFile( $cacheFileNum );\n-        $wildcardsInfos = $cacheFile->processFile( array( __CLASS__, 'fetchCacheFile' ) );\n+        $wildcardsInfos = $cacheFile->processFile( array( self::class, 'fetchCacheFile' ) );\n \n         if ( !isset( $wildcardsInfos[$wildcardNum] ) )\n         {\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php",
+            "diff": "--- Original\n+++ New\n@@ -323,8 +323,7 @@\n         $policy = eZPolicy::fetch( $policyID );\n         if ( $userLimits )\n         {\n-            reset( $userLimits );\n-            $policy->setAttribute( 'limit_identifier', 'User_' . key( $userLimits ) );\n+            $policy->setAttribute( 'limit_identifier', 'User_' . array_key_first( $userLimits ) );\n             $policy->setAttribute( 'limit_value', current( $userLimits ) );\n         }\n \n",
+            "applied_rectors": [
+                "Rector\\Php73\\Rector\\FuncCall\\ArrayKeyFirstLastRector"
+            ]
+        },
+        {
+            "file": "kernel/private/classes/ezcontentobjectstategroup.php",
+            "diff": "--- Original\n+++ New\n@@ -673,7 +673,7 @@\n                     $limitations[$name] = array(\n                         'name'   => $name,\n                         'values' => array(),\n-                        'class' => __CLASS__,\n+                        'class' => self::class,\n                         'function' => 'limitationValues',\n                         'parameter' => array( $group->attribute( 'id' ) )\n                     );\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/private/classes/ezpcontentpublishingqueueprocessor.php",
+            "diff": "--- Original\n+++ New\n@@ -40,7 +40,7 @@\n         $this->queueReader = $this->contentINI->variable( 'PublishingSettings', 'AsynchronousPublishingQueueReader' );\n         $reflection = new ReflectionClass( $this->queueReader );\n         if ( !$reflection->implementsInterface( 'ezpContentPublishingQueueReaderInterface' ) )\n-            throw new Exception( \"Configured asynchronous publishing queue reader doesn't implement ezpContentPublishingQueueReaderInterface\", __CLASS__ );\n+            throw new Exception( \"Configured asynchronous publishing queue reader doesn't implement ezpContentPublishingQueueReaderInterface\", self::class );\n \n         call_user_func( array( $this->queueReader, 'init' ) );\n     }\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/private/classes/ezpkernel.php",
+            "diff": "--- Original\n+++ New\n@@ -141,7 +141,7 @@\n         {\n             throw new LogicException(\n                 'Cannot return the instance of '\n-                . __CLASS__\n+                . self::class\n                 . ', it has not been instantiated'\n             );\n         }\n",
+            "applied_rectors": [
+                "Rector\\Php55\\Rector\\Class_\\ClassConstantToSelfClassRector"
+            ]
+        },
+        {
+            "file": "kernel/private/classes/ezplanguageswitcher.php",
+            "diff": "--- Original\n+++ New\n@@ -36,7 +36,7 @@\n \n         // Removing the first part, which is the SA param.\n         array_shift( $params['Parameters'] );\n-        $this->origUrl = join( $params['Parameters'] , '/' );\n+        $this->origUrl = join( '/', $params['Parameters'] );\n \n         $this->userParamString = '';\n         $userParams = $params['UserParameters'];\n",
+            "applied_rectors": [
+                "Rector\\CodingStyle\\Rector\\FuncCall\\ConsistentImplodeRector"
+            ]
+        }
+    ],
+    "changed_files": [
+        "kernel/private/modules/oauth/authorize.php",
+        "kernel/private/oauth/classes/restauthorizedclient.php",
+        "kernel/private/oauth/classes/restclient.php",
+        "kernel/private/rest/classes/models/ezprest_token.php",
+        "kernel/setup/steps/ezstep_site_types.php",
+        "kernel/visual/toolbar.php",
+        "kernel/class/edit.php",
+        "kernel/classes/datatypes/ezcountry/ezcountrytype.php",
+        "kernel/classes/datatypes/ezmultioption2/ezmultioption2.php",
+        "kernel/classes/datatypes/ezxmltext/ezxmltext.php",
+        "kernel/classes/ezclusterfilehandler.php",
+        "kernel/classes/ezcontentobject.php",
+        "kernel/classes/ezcontentobjectattribute.php",
+        "kernel/classes/ezpendingactions.php",
+        "kernel/classes/ezpersistentobject.php",
+        "kernel/classes/ezurlwildcard.php",
+        "kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php",
+        "kernel/private/classes/ezcontentobjectstategroup.php",
+        "kernel/private/classes/ezpcontentpublishingqueueprocessor.php",
+        "kernel/private/classes/ezpkernel.php",
+        "kernel/private/classes/ezplanguageswitcher.php"
+    ]
+}

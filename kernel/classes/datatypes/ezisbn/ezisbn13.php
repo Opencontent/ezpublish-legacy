@@ -135,7 +135,7 @@ class eZISBN13
      \param $separator is the separator used to make the ISBN number visible. Could be either a space or hyphen.
      \return A formated ISBN number or the original value if it was not possible to find the structure.
     */
-    function formatedISBNValue( $isbnNr = false, &$error, $separator = '-' )
+    function formatedISBNValue( $isbnNr = false, &$error = null, $separator = '-' )
     {
         if ( $isbnNr !== false )
         {
@@ -222,7 +222,7 @@ class eZISBN13
 
       \return true if the ISBN-13 number was successfully extracted and false if not.
     */
-    function extractISBNNumber( $isbnNr = false, &$error )
+    function extractISBNNumber( $isbnNr = false, &$error = null )
     {
         $ini = eZINI::instance( 'content.ini' );
         $ean = preg_replace( "/[\s|\-]+/", "", $isbnNr );

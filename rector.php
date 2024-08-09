@@ -6,8 +6,8 @@ use Rector\ValueObject\PhpVersion;
 return RectorConfig::configure()
     ->withPaths([
 //        __DIR__ . '/extension',
-//        __DIR__ . '/kernel',
-        __DIR__ . '/lib',
+        __DIR__ . '/kernel',
+//        __DIR__ . '/lib',
 //        __DIR__ . '/bin',
 //        __DIR__ . '/cronjobs',
 //        __DIR__ . '/vendor/opencontent',
