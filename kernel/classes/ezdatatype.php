@@ -163,7 +163,7 @@ class eZDataType
             if ( !isset( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) ||
                  get_class( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) != $className )
             {
-                $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
+                $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className( $dataTypeString, $className );
             }
             return $GLOBALS["eZDataTypeObjects"][$dataTypeString];
         }

@@ -517,7 +517,8 @@ class eZPersistentObject
                     // Note: for more colherence, we might use NULL for sql strings if the php value is NULL and not an empty sring
                     //       but to keep compatibility with ez db, where most string columns are "not null default ''",
                     //       and code feeding us a php null value without meaning it, we do not.
-                    $use_values_hash[$key] = "'" . $db->escapeString( $value ) . "'";
+                    //       We need to make sure $value is string before calling $db->escapeString in PHP 8
+                    $use_values_hash[$key] = "'" . (is_string($value) ? $db->escapeString( $value ) : '') . "'";
                 }
             }
             foreach ( $doNotEscapeFields as $key )
