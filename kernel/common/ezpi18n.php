@@ -109,6 +109,13 @@ class ezpI18n
     protected static function translateText( $context, $source, $comment = null, $arguments = null )
     {
         $localeCode = eZLocale::instance()->localeFullCode();
+        if ( $localeCode == 'eng-GB' 
+             && eZINI::instance( 'i18n.ini' )->hasVariable( 'TranslationSettings', 'OverrideDefault' )
+             && !empty( eZINI::instance( 'i18n.ini' )->variable( 'TranslationSettings', 'OverrideDefault' ) ) )
+        {
+            $localeCode = eZINI::instance( 'i18n.ini' )->variable( 'TranslationSettings', 'OverrideDefault' );
+        }
+
         if ( $localeCode == 'eng-GB' )
         {
             // we don't have ts-file for 'eng-GB'.
