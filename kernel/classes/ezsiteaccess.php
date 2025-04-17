@@ -546,6 +546,7 @@ class eZSiteAccess
         if ( $ini->hasVariable( 'ExpiryHandler', 'ExpiryFilePerSiteAccess' )
              && $ini->variable( 'ExpiryHandler', 'ExpiryFilePerSiteAccess' ) == 'enabled' )
         {
+            eZINI::instance('file.ini')->load(true);
             eZExpiryHandler::refresh();
         }
 
