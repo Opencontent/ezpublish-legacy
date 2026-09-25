@@ -456,6 +456,21 @@ class eZURLAliasML extends eZPersistentObject
                         $cleanupElements = true, $autoAdjustName = false, $reportErrors = true, $aliasRedirects = true )
     {
         $path = eZURLAliasML::cleanURL( $path );
+
+        // Reject paths that carry an absolute URL scheme (e.g. "https://host/path").
+        // cleanURL() only trims slashes, so an absolute URL would otherwise be
+        // exploded into segments (the "://" part turning into spurious empty /
+        // "https:" segments) and stored as a bogus, deeply nested alias tree.
+        if ( preg_match( "#^[a-zA-Z][a-zA-Z0-9+\\-.]*://#", $path ) )
+        {
+            eZDebug::writeError( "eZURLAliasML::storePath: rejected absolute URL passed as path: " . var_export( $path, true ), __METHOD__ );
+            return array( 'status' => self::ACTION_INVALID,
+                          'error_message' => "The path value " . var_export( $path, true ) . " looks like an absolute URL and is not a valid path",
+                          'error_number' => self::ACTION_INVALID,
+                          'path'    => null,
+                          'element' => null );
+        }
+
         if ( $languageName === false )
         {
             $languageName = eZContentLanguage::topPriorityLanguage();
@@ -1263,6 +1278,16 @@ class eZURLAliasML extends eZPersistentObject
         else
             $elements = explode( '/', $uriString );
         $len      = count( $elements );
+
+        // $glob adds one more joined table below (the wildcard suffix), so it
+        // must be accounted for here too, otherwise a path at exactly the
+        // limit combined with an active glob would still build one table
+        // more than intended.
+        if ( ( $len + ( $glob !== false ? 1 : 0 ) ) > eZURLAliasML::maxPathDepth() )
+        {
+            return array();
+        }
+
         $i = 0;
         $selects = array();
         $tables  = array();
@@ -1546,6 +1571,11 @@ class eZURLAliasML extends eZPersistentObject
         $db = eZDB::instance();
         $elements = explode( '/', $internalURIString );
         $len      = count( $elements );
+
+        if ( $len > eZURLAliasML::maxPathDepth() )
+        {
+            return false;
+        }
 
         $i = 0;
         $selects = array();
@@ -2185,6 +2215,34 @@ class eZURLAliasML extends eZPersistentObject
     static public function cleanURL( $url )
     {
         return trim( $url, '/ ' );
+    }
+
+    /*!
+     \static
+     Maximum number of path segments accepted by translate() and fetchByPath()
+     before the lookup query is built. Both functions build a self-join with
+     one table instance per path segment, so an unbounded path depth allows
+     an attacker to force an arbitrarily expensive query (see EZP N-JOIN URL
+     alias depth-of-service issue). Configurable via site.ini so it can be
+     adjusted without a code deploy.
+     \return the configured maximum depth, defaults to 30 if not set
+    */
+    static public function maxPathDepth()
+    {
+        $default = 30;
+        $ini = eZINI::instance();
+        if ( $ini->hasVariable( 'URLTranslator', 'MaxPathDepth' ) )
+        {
+            $configured = (int)$ini->variable( 'URLTranslator', 'MaxPathDepth' );
+            // Guard against a misconfigured value (empty, non-numeric, zero or
+            // negative) which would otherwise reject every URL on the site,
+            // not just deep/abusive ones.
+            if ( $configured > 0 )
+            {
+                return $configured;
+            }
+        }
+        return $default;
     }
 
     /*!
