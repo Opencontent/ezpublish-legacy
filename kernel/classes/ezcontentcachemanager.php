@@ -473,6 +473,11 @@ class eZContentCacheManager
         // determine if $contentObject has dependent objects for which cache should be cleared too.
         $objectClassIdentifier = $contentObject->attribute( 'class_identifier' );
         $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
+        if ( $dependentClassInfo === false )
+        {
+            // no smart cache clear configuration for this class
+            $dependentClassInfo = array( 'clear_cache_type' => null, 'clear_cache_exclusive' => null );
+        }
 
         if ( $dependentClassInfo['clear_cache_type'] === self::CLEAR_NO_CACHE )
         {

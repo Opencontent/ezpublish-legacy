@@ -406,6 +406,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         foreach( $textElements as $elementKey => $element )
         {
             $elementPlacement = $element['placement'];
+            if ( !is_array( $elementPlacement ) )
+            {
+                // literal blocks are stored without placement
+                $elementPlacement = array( 'start' => array( 'line' => null, 'column' => null, 'position' => null ),
+                                           'stop' => array( 'line' => null, 'column' => null, 'position' => null ),
+                                           'templatefile' => null );
+            }
             $startLine = $elementPlacement['start']['line'];
             $startColumn = $elementPlacement['start']['column'];
             $startPosition = $elementPlacement['start']['position'];
