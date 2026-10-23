@@ -2704,7 +2704,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function viewCount()
     {
         $count = eZViewCounter::fetch( $this->attribute( 'node_id' ), false );
-        return (int) $count['count'];
+        return $count ? (int) $count['count'] : 0;
     }
 
     /*!
