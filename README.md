@@ -77,7 +77,6 @@ Main eZ Publish features
 - Database abstraction layer
 - MVC architecture
 - Support for highly available and scalable configurations (multi-server clusters)
-- Support for the latest Image and Video File Formats (webp, webm, png, jpeg, etc)
 - XML handling and parsing library
 - SOAP communication library
 - Localisation and internationalisation libraries
@@ -100,13 +99,11 @@ Read doc/INSTALL or go to http://doc.ez.no/eZ-Publish
 
 Issue tracker
 -------------
-Submitting bugs, improvements and stories is possible on [https://github.com/mugoweb/ezpublish-legacy/issues](https://github.com/mugoweb/ezpublish-legacy/issues).
-
-If you discover a security issue, please responsibly report such issues.
+Submitting bugs, improvements and stories is possible on https://jira.ez.no/browse/EZP.
+If you discover a security issue, please see how to responsibly report such issues on https://doc.ez.no/Security.
 
 
 Where to get more help
 ----------------------
-eZ Publish documentation: [https://ezpublishdoc.mugo.ca/eZ-Publish/index.html](https://ezpublishdoc.mugo.ca/eZ-Publish/index.html)
-
+eZ Publish documentation: http://doc.ez.no/eZ-Publish
 eZ Publish forums: http://share.ez.no/forums/
