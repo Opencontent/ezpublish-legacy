@@ -41,7 +41,7 @@ if ( $fileName != "" and file_exists( $fileName ) )
         if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
         {
             $fileOffset = $matches[1];
-            header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
+            header( "Content-Range: bytes $fileOffset-" . ( $fileSize - 1 ) . "/$fileSize" );
             header( "HTTP/1.1 206 Partial Content" );
             $contentLength -= $fileOffset;
         }
