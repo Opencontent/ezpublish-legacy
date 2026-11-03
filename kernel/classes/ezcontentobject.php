@@ -15,6 +15,7 @@
  */
 class eZContentObject extends eZPersistentObject
 {
+    public $ContentObjectAttributeArray;
     const STATUS_DRAFT = 0;
     const STATUS_PUBLISHED = 1;
     const STATUS_ARCHIVED = 2;
@@ -883,6 +884,11 @@ class eZContentObject extends eZPersistentObject
      */
     static function fetch( $id, $asObject = true )
     {
+        if ( is_array( $id ) )
+        {
+            $id = '';
+        }
+
         global $eZContentObjectContentObjectCache;
 
         // If the object given by its id is not cached or should be returned as array
@@ -6736,6 +6742,9 @@ class eZContentObject extends eZPersistentObject
      * @var array Contains the arrays of relatedobject id by fetching input for this object
      */
     public $InputRelationList = array();
+
+    public $Permissions;
+    public $ContentObject;
 
     /**
      * Cache for the state ID array

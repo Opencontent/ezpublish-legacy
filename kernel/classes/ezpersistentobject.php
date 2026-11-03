@@ -26,7 +26,7 @@
  *     }
  * }
  * </code>
- * 
+ *
  * @package eZKernel
  */
 class eZPersistentObject
@@ -94,7 +94,7 @@ class eZPersistentObject
 
         return true;
     }
-    
+
     /**
      * For the given array $fields treats its keys (for associative array) or
      * values (for non-associative array) as table fields names and replaces them
@@ -289,7 +289,7 @@ class eZPersistentObject
 
         $db->query( "DELETE FROM $table $cond_text" );
     }
-    
+
     /**
      * Stores the object in the database, uses storeObject() to do the actual
      * job and passes $fieldFilters to it.
@@ -397,11 +397,11 @@ class eZPersistentObject
                 }
             }
 
-            if ( strlen( $value ) == 0 &&
-                 is_array( $field_def ) &&
-                 in_array( $field_def['datatype'], $numericDataTypes  ) &&
-                 array_key_exists( 'default', $field_def ) &&
-                 ( $field_def[ 'default' ] === null || is_numeric( $field_def[ 'default' ] ) ) )
+            if ( strlen( (string) $value ) == 0 &&
+                is_array( $field_def ) &&
+                in_array( $field_def['datatype'], $numericDataTypes  ) &&
+                array_key_exists( 'default', $field_def ) &&
+                ( $field_def[ 'default' ] === null || is_numeric( $field_def[ 'default' ] ) ) )
             {
                 $obj->setAttribute( $field_name, $field_def[ 'default' ] );
             }
@@ -611,7 +611,7 @@ class eZPersistentObject
         }
         $obj->setHasDirtyData( false );
     }
-    
+
     /**
      * Calls conditionTextByRow with an empty row and $conditions.
      *
@@ -765,7 +765,7 @@ class eZPersistentObject
      * $rows = eZPersistentObject::fetchObjectList( $objectAttributeDef, $fields, $conds, $sorts, $limit, $asObject,
      *                                              $group, $customFields, $customTables, $customConds );
      * </code>
-     * 
+     *
      * @param array $def                    A definition array of all fields, table name and sorting (see {@link eZPersistentObject::definition()} for more info)
      * @param array|null $field_filters     If defined determines the fields which are extracted (array of field names), if not all fields are fetched
      * @param array|null $conds             null for no special condition or an associative array of fields to filter on.
@@ -941,7 +941,7 @@ class eZPersistentObject
         $objectList = eZPersistentObject::handleRows( $rows, $class_name, $asObject );
         return $objectList;
     }
-    
+
     /**
      * Creates PHP objects out of the database rows $rows.
      *
@@ -981,7 +981,7 @@ class eZPersistentObject
         else
             return $rows;
     }
-    
+
     /**
      * Sets row id $id2 to have the placement of row id $id1.
      *
@@ -1011,7 +1011,7 @@ class eZPersistentObject
         }
         return "UPDATE $table SET $text";
     }
-    
+
     /**
      * Returns an order value which can be used for new items in table,
      * for instance placement.
@@ -1292,7 +1292,7 @@ class eZPersistentObject
             $attrs = array_unique( array_merge( $attrs, array_keys( $def["functions"] ) ) );
         return $attrs;
     }
-    
+
     /**
      * Checks if $attr is part of the definition fields or function attributes.
      *
@@ -1398,7 +1398,7 @@ class eZPersistentObject
                                  $def['class_name'] );
         }
     }
-    
+
     /**
      * Returns true if the data is considered dirty and needs to be stored.
      *
@@ -1437,6 +1437,82 @@ class eZPersistentObject
 
         return $attrName;
     }
+
+    public $ID;
+    public $ContentObjectID;
+    public $SectionID;
+    public $OwnerID;
+    public $ClassID;
+    public $Published;
+    public $Modified;
+    public $CurrentVersion;
+    public $Status;
+    public $RemoteID;
+    public $LanguageMask;
+    public $InitialLanguageID;
+    public $NodeID;
+    public $ParentNodeID;
+    public $MainNodeID;
+    public $ContentObjectVersion;
+    public $ContentObjectIsPublished;
+    public $Depth;
+    public $SortField;
+    public $SortOrder;
+    public $Priority;
+    public $ModifiedSubNode;
+    public $PathString;
+    public $PathIdentificationString;
+    public $IsHidden;
+    public $IsInvisible;
+    public $UserID;
+    public $Name;
+    public $Locale;
+    public $Identifier;
+    public $NavigationPartIdentifier;
+    public $SerializedDescriptionList;
+    public $URLAliasName;
+    public $AlwaysAvailable;
+    public $CanTranslate;
+    public $DataInt1;
+    public $DataInt2;
+    public $DataInt3;
+    public $DataInt4;
+    public $DataFloat1;
+    public $DataFloat2;
+    public $DataFloat3;
+    public $DataFloat4;
+    public $DataText1;
+    public $DataText2;
+    public $DataText3;
+    public $DataText4;
+    public $DataText5;
+    public $SerializedDataText;
+    public $Category;
+    public $PolicyID;
+    public $Values;
+    public $Created;
+    public $CurrencyCode;
+    public $ProductCollectionID;
+    public $ItemCount;
+    public $Price;
+    public $IsVATIncluded;
+    public $VATValue;
+    public $DiscountValue;
+    public $Email;
+    public $IsTemporary;
+    public $IsArchived;
+    public $IsActive;
+    public $OrderID;
+    public $ModifierID;
+    public $Code;
+    public $Symbol;
+    public $AutoRateValue;
+    public $CustomRateValue;
+    public $RateFactor;
+    public $Main;
+    public $MementoKey;
+    public $MainKey;
+    public $WorkflowEventPos;
 }
 
 ?>

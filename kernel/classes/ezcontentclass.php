@@ -18,6 +18,7 @@
 
 class eZContentClass extends eZPersistentObject
 {
+    public $InGroupIDs;
     const VERSION_STATUS_DEFINED = 0;
     const VERSION_STATUS_TEMPORARY = 1;
     const VERSION_STATUS_MODIFIED = 2;
@@ -2016,6 +2017,7 @@ You will need to change the class of the node by using the swap functionality.' 
     public $IsContainer;
     public $CanInstantiateLanguages;
     public $LanguageMask;
+    public $DataMap;
 
     /**
      * In-memory cache for class identifiers / id matching

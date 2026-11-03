@@ -34,6 +34,7 @@
 
 class eZModule
 {
+    public $ViewActionParameters;
     /**
      * Module execution status: IDLE
      * @var int
@@ -241,6 +242,9 @@ class eZModule
     public $UIComponentMatch;
 
     public static $useExceptions;
+    public $FunctionList;
+    public $NavigationParts;
+
 
     /**
      * Constructor. Initializes the module.

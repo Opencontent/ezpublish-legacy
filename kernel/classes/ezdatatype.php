@@ -44,6 +44,7 @@
 
 class eZDataType
 {
+    public $Attributes;
     /**
      * Initializes the datatype with the string id $dataTypeString and the name $name.
      *
@@ -184,7 +185,7 @@ class eZDataType
             {
                 if ( !isset( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) )
                 {
-                    $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
+                    $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className( $dataTypeString, $className );
                 }
             }
             uasort( $GLOBALS["eZDataTypeObjects"], function ( $a, $b ) { return strcmp( $a->Name, $b->Name); } );
@@ -1514,6 +1515,8 @@ class eZDataType
     public $DataTypeString;
     /// The descriptive name of the datatype, usually used for displaying to the user
     public $Name;
+
+    
 }
 
 ?>

@@ -189,6 +189,7 @@ class eZi18nOperator
     public $Operators;
     public $Name;
     public $ExtensionName;
+    public $DynamicName;
 }
 
 ?>

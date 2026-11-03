@@ -405,7 +405,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
         foreach( $textElements as $elementKey => $element )
         {
-            $elementPlacement = $element['placement'];
+            if ( !is_array( $element ) )
+                continue;
+            $elementPlacement = isset( $element['placement'] ) ? $element['placement'] : null;
             if ( !is_array( $elementPlacement ) )
             {
                 // literal blocks are stored without placement

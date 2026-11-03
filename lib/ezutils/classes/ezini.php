@@ -361,14 +361,20 @@ class eZINI
      * Check whether a specified parameter in a specified section is set in a specified file
      *
      * @deprecated Since 4.4
-     * @param string fileName file name (optional)
-     * @param string rootDir directory (optional)
+     * @param string fileName file name (optional/psudo required)
+     * @param string rootDir directory (optional/psudo required)
      * @param string section section name
      * @param string parameter parameter name
      * @return bool True if the the parameter is set.
      */
-    static function parameterSet( $fileName = 'site.ini', $rootDir = 'settings', &$section, &$parameter )
+    static function parameterSet( string $fileName = null, string $rootDir = null, &$section, &$parameter )
     {
+        if( $fileName == null )
+            $fileName = 'site.ini';
+
+        if( $rootDir == null )
+            $fileName = 'settings';
+
         if ( !eZINI::exists( $fileName, $rootDir ) )
             return false;
 
@@ -1794,8 +1800,17 @@ class eZINI
      */
     function findSettingPlacement( $path )
     {
-        if ( is_array( $path ) && isset( $path[0] ) )
-            $path = $path[0];
+        if ( is_array( $path ) )
+        {
+            if( isset( $path[0] ) )
+            {
+                $path = $path[0];
+            }
+            else
+            {
+                return 'undefined';
+            }
+        }
 
         // changing $path so that it's relative the root eZ Publish (legacy)
         $path = str_replace( __DIR__ . "/../../../", "", $path );

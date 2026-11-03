@@ -250,7 +250,7 @@ class eZTemplateTypeOperator
 
             case $this->IsClassName:
             {
-                $code .= '( strtolower( get_class( %1% ) ) == strtolower( %2% ) );';
+                $code .= '( is_object( %1% ) ? strtolower( get_class( %1% ) ) == strtolower( %2% ) : false );';
                 $values[] = $parameters[1];
             } break;
 
@@ -276,7 +276,7 @@ class eZTemplateTypeOperator
 
             case $this->GetClassName:
             {
-                $code .= 'strtolower( get_class( %1% ) );';
+                $code .= '( is_object( %1% ) ? strtolower( get_class( %1% ) ) : "" );';
             } break;
         }
 
@@ -423,6 +423,19 @@ class eZTemplateTypeOperator
     public $Operators;
     /// The "less than" name
     public $IsArrayName;
+    public $IsBooleanName;
+    public $IsIntegerName;
+    public $IsFloatName;
+    public $IsNumericName;
+    public $IsStringName;
+    public $IsObjectName;
+    public $IsClassName;
+    public $IsNullName;
+    public $IsSetName;
+    public $IsUnsetName;
+    public $GetTypeName;
+    public $GetClassName;
+    public $PHPNameMap;
 }
 
 ?>

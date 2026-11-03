@@ -18,6 +18,7 @@
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
+    public $AddToBasketIsValid;
     public function __construct( $row )
     {
         $this->Content = null;
@@ -216,6 +217,25 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                     $asObject);
     }
 
+    /**
+     * Returns the attribute data for $attr, this is either returned from the
+     * member variables or a member function depending on whether the definition
+     * field or function attributes matched.
+     *
+     * @param string $attr
+     * @param bool $noFunction
+     * @return mixed
+     */
+    public function attribute( $attr, $noFunction = false )
+    {
+        // avoiding returning null values for data_text
+        if($attr == 'data_text' && $this->DataText === null)
+        {
+            return '';
+        }
+        return parent::attribute( $attr, $noFunction );
+    }
+
     /*!
      \return the attributes with alternative translations for the current attribute version and class attribute id
     */
@@ -302,8 +322,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
         $classAttribute = $this->contentClassAttribute();
-        $dataType = $classAttribute->dataType();
-        $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        if ( is_object( $classAttribute  ) )
+        {
+            $dataType = $classAttribute->dataType();
+            $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        }
         $this->updateSortKey( false );
 
         parent::store();
@@ -318,7 +341,9 @@ class eZContentObjectAttribute extends eZPersistentObject
     function updateSortKey( $storeData = true )
     {
         $classAttribute = $this->contentClassAttribute();
-        $dataType = $classAttribute->dataType();
+        $dataType = false;
+        if ( is_object( $classAttribute ) )
+            $dataType = $classAttribute->dataType();
 
         $return = false;
 
@@ -506,7 +531,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute = eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
-            $dataType = $classAttribute->dataType();
+            $dataType = false;
+            if ( is_object($classAttribute) )
+                $dataType = $classAttribute->dataType();
 
             if ( $dataType &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&
@@ -1499,6 +1526,20 @@ class eZContentObjectAttribute extends eZPersistentObject
     public $ContentClassAttributeIsRequired;
 
     public $ValidationParameters = array();
+    public $InputParameters;
+    public $HasValidationError;
+    public $DataTypeCustom;
+    public $DataTypeString;
+    public $Version;
+    public $LanguageCode;
+    public $LanguageID;
+    public $AttributeOriginalID;
+    public $SortKeyInt;
+    public $SortKeyString;
+    public $DataText;
+    public $DataInt;
+    public $DataFloat;
+
 }
 
 ?>

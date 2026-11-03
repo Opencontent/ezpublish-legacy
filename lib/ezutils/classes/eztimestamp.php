@@ -25,10 +25,15 @@ class eZTimestamp
     */
     public static function _getUtcTimestampFromLocalTimestamp($localTimestamp)
     {
+        if ( $localTimestamp === null || $localTimestamp === '' )
+        {
+            return null;
+        }
+
         $utcTimezone = new \DateTimeZone('UTC');
         $localTimezone = new \DateTimeZone(date_default_timezone_get());
 
-        $localDate = new \DateTime(null, $localTimezone);
+        $localDate = new \DateTime('now', $localTimezone);
         $localDate->setTimestamp($localTimestamp);
         $utcDate = new \DateTime($localDate->format('Y-m-d H:i:s'), $utcTimezone);
 
@@ -40,10 +45,15 @@ class eZTimestamp
     */
     public static function _getLocalTimestampFromUtcTimestamp($utcTimestamp)
     {
+        if ( $utcTimestamp === null || $utcTimestamp === '' )
+        {
+            return null;
+        }
+
         $utcTimezone = new \DateTimeZone('UTC');
         $localTimezone = new \DateTimeZone(date_default_timezone_get());
 
-        $utcDate = new \DateTime(null, $utcTimezone);
+        $utcDate = new \DateTime('now', $utcTimezone);
         $utcDate->setTimestamp($utcTimestamp);
         $localDate = new \DateTime($utcDate->format('Y-m-d H:i:s'), $localTimezone);
 

@@ -49,7 +49,7 @@ class eZLog
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = date( "M d Y H:i:s", strtotime( "now" ) );
             $ip = eZSys::clientIP();
             if ( !$ip )
                 $ip = eZSys::serverVariable( 'HOSTNAME', true );
@@ -110,7 +110,7 @@ class eZLog
         $logFile = @fopen( $fileName, "a" );
         if ( $logFile )
         {
-            $time = strftime( "%b %d %Y %H:%M:%S", strtotime( "now" ) );
+            $time = date( "M d Y H:i:s", strtotime( "now" ) );
             $logMessage = "[ " . $time . " ] [" . $dir . $name . "]\n";
             @fwrite( $logFile, $logMessage );
             @fclose( $logFile );

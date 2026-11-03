@@ -16,6 +16,7 @@
  */
 class eZContentObjectStateGroup extends eZPersistentObject
 {
+    public $DefaultLanguageID;
     const MAX_IDENTIFIER_LENGTH = 45;
 
     /**
@@ -65,6 +66,7 @@ class eZContentObjectStateGroup extends eZPersistentObject
      */
     public static function fetchById( $id )
     {
+        $id = (int)$id;
         $stateGroups = self::fetchByConditions( array( "ezcobj_state_group.id=$id" ), 1, 0 );
         $stateGroup = count( $stateGroups ) > 0 ? $stateGroups[0] : false;
         return $stateGroup;
