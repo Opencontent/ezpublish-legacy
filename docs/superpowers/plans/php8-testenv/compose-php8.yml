@@ -1,0 +1,28 @@
+# Override per il test del CMS su PHP 8.3. setup.sh sostituisce __HTML__.
+name: cmsphp8
+services:
+  app:
+    image: cms-php8-test:local
+    pull_policy: never
+    build: !reset null
+    restart: "no"
+    ports:
+      - "127.0.0.1:18080:80"
+    environment:
+      RUN_INSTALLER: 'false'
+      php.ini_display_errors: 'Off'
+    volumes:
+      - __HTML__:/var/www/html
+volumes:
+  dfs:
+    name: cmsphp8_dfs
+    external: true
+  pgdata:
+    name: cmsphp8_pgdata
+    external: true
+  miniodata:
+    name: cmsphp8_miniodata
+    external: true
+  solrdata:
+    name: cmsphp8_solrdata
+    external: true
