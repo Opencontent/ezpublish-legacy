@@ -26,7 +26,7 @@
 1. **Cache DFS dopo una cancellazione o uno spostamento:** dopo `delete()`, `fileMove()` o `move()` di un file in cluster, la lettura successiva di `metaData` deve ricaricare i metadati dal DB, non restituire `null` per sempre (Task 1).
 2. **CLI con debug attivo:** uno script in `bin/php/` con `--debug` su PHP 8.3 non deve emettere deprecazioni per `fputs(null)` quando il report di debug è vuoto (Task 1).
 3. **Template con `{for}` compilati:** con `TemplateCompile=enabled` i template compilati non devono contenere `${...}` (Task 1).
-4. **Sessioni su DB:** con `Handler=ezpSessionHandlerDB` login e logout devono funzionare su 8.3. La correzione c'è (`3ab3d4207e`), ma il test d'uso va fatto (Task 3).
+4. **Sessioni su DB:** con `Handler=ezpSessionHandlerDB` login e logout devono funzionare su 8.3. La correzione c'è (`31b11a6cd1`), ma il test d'uso va fatto (Task 3).
 5. **Output HTML con apici singoli:** da PHP 8.1 `htmlspecialchars` converte anche `'`. Contenuti con apostrofi in attributi, RSS ed export XML vanno controllati (Task 4, dopo la decisione D1).
 
 ---
@@ -35,16 +35,16 @@
 
 | Data | Cosa | Commit |
 | --- | --- | --- |
-| 2026-11-04 | Deprecazioni di firme e return type (27 return type con `#[\ReturnTypeWillChange]`, 15 firme), `count(false)` in ezoe | `02b3938b8a` |
-| 2026-11-04 | Quattro errori fatali di PHP 8: `session_module_name('user')`, `implode` invertito in OAuth, `crypt()` senza salt in LDAP, precedenza `.`/`-` nell'export | `3ab3d4207e` |
-| 2026-11-04 | Sintassi `$str{$i}` nel datatype ISBN e in WebDAV | `17685de4e4` |
-| 2026-11-04 | Revert di 4 cherry-pick fuori scopo: 2 README di Mugo, migrazione `data_text` solo MySQL 8, permesso obbligatorio su `ezjscnode` | `ceea67ee29`, `4a48a135b2`, `12a2aed44c`, `5e10065289` |
-| 2026-11-04 | 32 cherry-pick puliti da Mugo (2023–2026): fix PHP 8.2/8.3, SameSite, deprecazioni in `ezdebug`, ecc. Elenco con `git log --grep 'cherry picked from' master..php8` | `1e5b4411bf` … `bccd8f231b` |
-| 2026-11-04 | Merge di `netgen/ezpublish-legacy@ibexa-support` con 7 conflitti risolti tenendo le nostre patch | `7a12b61412` |
+| 2026-11-04 | Deprecazioni di firme e return type (27 return type con `#[\ReturnTypeWillChange]`, 15 firme), `count(false)` in ezoe | `1557b602fe` |
+| 2026-11-04 | Quattro errori fatali di PHP 8: `session_module_name('user')`, `implode` invertito in OAuth, `crypt()` senza salt in LDAP, precedenza `.`/`-` nell'export | `31b11a6cd1` |
+| 2026-11-04 | Sintassi `$str{$i}` nel datatype ISBN e in WebDAV | `14d59ebdd6` |
+| 2026-11-04 | Revert di 4 cherry-pick fuori scopo: 2 README di Mugo, migrazione `data_text` solo MySQL 8, permesso obbligatorio su `ezjscnode` | `82192d94f2`, `9f79b581f7`, `daf598e801`, `f6349d0e6e` |
+| 2026-11-04 | 32 cherry-pick puliti da Mugo (2023–2026): fix PHP 8.2/8.3, SameSite, deprecazioni in `ezdebug`, ecc. Elenco con `git log --grep 'cherry picked from' master..php8` | `5a29b7d2e6` … `5c5306bb5d` |
+| 2026-11-04 | Merge di `netgen/ezpublish-legacy@ibexa-support` con 7 conflitti risolti tenendo le nostre patch | `f319c251e8` |
 | 2026-11-04 | Avvio reale del CMS su PHP 8.3 con il kernel `php8`: home, backend, login e `openapi.json` rispondono 200, nessun errore fatale | — |
 | 2026-11-03 | Scelta della base: Netgen e cherry-pick di Mugo, con analisi pubblicata | — |
 
-Stato misurato dopo `02b3938b8a` (analisi statica di `kernel/` e `lib/` con PHP 8.2):
+Stato misurato dopo `1557b602fe` (analisi statica di `kernel/` e `lib/` con PHP 8.2):
 
 | Controllo | `master` | `php8` |
 | --- | --- | --- |
@@ -236,7 +236,7 @@ Gli `Unterminated comment` sui file `*.ini.append.php` sono falsi positivi: eZ l
 | # | Decisione | Opzioni | Note |
 | --- | --- | --- | --- |
 | D1 | Flag di default di `htmlspecialchars` | Tenere il comportamento 7.4 (`ENT_COMPAT`) / adottare quello 8.1 (`ENT_QUOTES`) | Blocca il Task 4. Il secondo escapa anche `'`, più sicuro, ma cambia l'output |
-| D2 | Permesso obbligatorio su `ezjscnode` (Mugo #224) | Tenerlo fuori / reintrodurlo con la policy `ezjscore/call` per gli anonimi | Annullato in `5e10065289`. Chiude chiamate AJAX anonime ai sottoalberi |
+| D2 | Permesso obbligatorio su `ezjscnode` (Mugo #224) | Tenerlo fuori / reintrodurlo con la policy `ezjscore/call` per gli anonimi | Annullato in `f6349d0e6e`. Chiude chiamate AJAX anonime ai sottoalberi |
 | D3 | Formato del log di `ezdebug` (Mugo #219: etichetta e messaggio sulla stessa riga) | Tenere / tornare al formato su due righe | Già nel branch. Va controllato se qualcuno analizza i log in automatico |
 | D4 | PHPUnit | Restare a 4.8.36 / passare alla 10 come Netgen e aggiornare i test | 4.8 non gira su PHP 8 |
 | D5 | Default di `data_text` in `ezcontentobject_attribute` | Nessuna modifica / migrazione Postgres equivalente alla `lovestack/4.sql` di Mugo | Il fix PHP 8 di ezmatrix è già arrivato con Netgen |
