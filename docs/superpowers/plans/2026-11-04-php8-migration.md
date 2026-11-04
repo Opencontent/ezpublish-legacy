@@ -35,6 +35,7 @@
 
 | Data | Cosa | Commit |
 | --- | --- | --- |
+| 2026-11-04 | Messaggi dei nostri commit riscritti in inglese (albero identico) e push di `php8` su GitHub | — |
 | 2026-11-04 | Deprecazioni di firme e return type (27 return type con `#[\ReturnTypeWillChange]`, 15 firme), `count(false)` in ezoe | `1557b602fe` |
 | 2026-11-04 | Quattro errori fatali di PHP 8: `session_module_name('user')`, `implode` invertito in OAuth, `crypt()` senza salt in LDAP, precedenza `.`/`-` nell'export | `31b11a6cd1` |
 | 2026-11-04 | Sintassi `$str{$i}` nel datatype ISBN e in WebDAV | `14d59ebdd6` |
@@ -201,7 +202,7 @@ git commit -am "Fix: explicit htmlspecialchars flags, same output on PHP 7.4 and
 
 ## Task 5: Pubblicazione del branch
 
-- [ ] **Step 1: Push** — bloccato. L'utente `coppo` ha solo `pull` su `Opencontent/ezpublish-legacy` (403 con `GITHUB_TOKEN`). Serve un token con permesso di push, o il permesso per l'utente.
+- [x] **Step 1: Push** — fatto il 2026-11-04: `php8` pubblicato su `Opencontent/ezpublish-legacy`, dopo aver riscritto in inglese i messaggi dei nostri commit. I commit di Netgen hanno mantenuto i loro hash.
 - [ ] **Step 2: PR `php8` → `master`** con il link a questo piano e all'analisi. Il merge in `master` va fatto solo dopo i Task 1–3 e dopo che il CMS su 7.4 è stato verificato con il kernel `php8` (boat e saasopenpa).
 - [ ] **Step 3: Tag** `2020.1000.17` (o una nuova serie per PHP 8, vedi D6) e aggiornamento di `composer.lock` nel CMS.
 
