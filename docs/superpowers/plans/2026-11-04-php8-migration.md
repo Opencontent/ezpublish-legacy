@@ -19,7 +19,7 @@
 - Le nostre patch restano: eZURLAliasML (limite di profondità, niente reparenting inutile), formato del log con IP e identificatore, conversione eZTimestamp disattivata, `EZINI_*` in `ezini.php`, `composer.json` con nome `ezsystems/ezpublish-legacy` e `opencontent/ezjscore`.
 - Nessuna funzionalità nuova che non serva a PHP 8: le funzionalità di Mugo e Netgen entrano solo con una decisione esplicita (vedi Decisioni aperte).
 - Ogni file PHP toccato passa `php -l` con 7.4 e con 8.3.
-- Messaggi di commit in italiano, che finiscono con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` quando li scrive un agente.
+- Messaggi di commit in inglese. Quando li scrive un agente finiscono con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
 ## Review Focus
 
@@ -102,7 +102,7 @@ Expected: `0`.
 
 ```bash
 git add lib/eztemplate/classes/eztemplateforfunction.php kernel/private/classes/clusterfilehandlers/ezdfsfilehandler.php kernel/classes/ezscript.php
-git commit -m "Fix: deprecazioni PHP 8.2 a runtime in template for, DFS e ezscript"
+git commit -m "Fix: PHP 8.2 runtime deprecations in template for, DFS and ezscript"
 ```
 
 ## Task 2: Controlli PHP 8 in CI
@@ -140,7 +140,7 @@ Expected: il job `lint (8.3)` fallisce e `lint (7.4)` passa. Poi chiudere la PR 
 
 ```bash
 git add .github/workflows/php-compat.yml phpstan.neon.dist phpstan-baseline.neon
-git commit -m "CI: lint PHP 7.4/8.3 e PHPStan per PHP 8.2"
+git commit -m "CI: lint on PHP 7.4/8.3 and PHPStan for PHP 8.2"
 ```
 
 ## Task 3: Test d'uso del CMS su PHP 8.3
@@ -196,7 +196,7 @@ Expected: `0 errors`. Poi Task 3, Step 2, punti 2 e 3, con un titolo che contien
 - [ ] **Step 3: Commit**
 
 ```bash
-git commit -am "Fix: flag espliciti per htmlspecialchars, stesso output su PHP 7.4 e 8"
+git commit -am "Fix: explicit htmlspecialchars flags, same output on PHP 7.4 and 8"
 ```
 
 ## Task 5: Pubblicazione del branch
