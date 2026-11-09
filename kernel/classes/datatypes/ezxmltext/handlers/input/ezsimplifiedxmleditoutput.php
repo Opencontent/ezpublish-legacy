@@ -75,6 +75,12 @@ class eZSimplifiedXMLEditOutput
         $this->Output = '';
         $sectionLevel = -1;
 
+        // An empty ezxmltext (data_text = '') gives a document without root element
+        if ( !$dom->documentElement )
+        {
+            return $this->Output;
+        }
+
         $this->createLinksArray( $dom );
 
         $this->outputTag( $dom->documentElement, $sectionLevel );
