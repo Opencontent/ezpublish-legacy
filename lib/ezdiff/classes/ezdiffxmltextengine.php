@@ -37,11 +37,18 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 
         $domOld = new DOMDocument( '1.0', 'utf-8' );
         $domOld->preserveWhiteSpace = false;
-        $domOld->loadXML( $oldXML );
+        // An empty ezxmltext (data_text = '') cannot be loaded: leave the document empty
+        if ( trim( (string)$oldXML ) !== '' )
+        {
+            $domOld->loadXML( $oldXML );
+        }
 
         $domNew = new DOMDocument( '1.0', 'utf-8' );
         $domNew->preserveWhiteSpace = false;
-        $domNew->loadXML( $newXML );
+        if ( trim( (string)$newXML ) !== '' )
+        {
+            $domNew->loadXML( $newXML );
+        }
 
         $old = $simplifiedXML->performOutput( $domOld );
         $new = $simplifiedXML->performOutput( $domNew );
